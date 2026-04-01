@@ -10,27 +10,27 @@
 <style>
 
 :root{
-  --bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;
-  --accent:#58a6ff;--text:#e6edf3;--muted:#8b949e;--dim:#484f58;
-  --yeongnam:#ffa657;--capital:#58a6ff;--other:#3fb950;
-  --pass:#3fb950;--waitlist:#f0c040;--fail:#f78166;
-  --boy:#58a6ff;--girl:#ff7eb6;
-  --y25:#58a6ff;--y24:#3fb950;--y23:#d2a8ff;
-  --rise:#f78166;--fall:#3fb950;
+  --bg:#ffffff;--surface:#f6f8fa;--surface2:#eaeef2;--border:#d0d7de;
+  --accent:#0969da;--text:#1f2328;--muted:#656d76;--dim:#9198a1;
+  --yeongnam:#bc4c00;--capital:#0969da;--other:#1a7f37;
+  --pass:#1a7f37;--waitlist:#9a6700;--fail:#cf222e;
+  --boy:#0969da;--girl:#bf3989;
+  --y25:#0969da;--y24:#1a7f37;--y23:#8250df;
+  --rise:#cf222e;--fall:#1a7f37;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;min-height:100vh;}
-.header{background:linear-gradient(135deg,#0d1117 0%,#1a1025 100%);border-bottom:1px solid var(--border);padding:16px 24px;position:sticky;top:0;z-index:200;}
+.header{background:linear-gradient(135deg,#f6f8fa 0%,#eef0ff 100%);border-bottom:2px solid var(--border);padding:16px 24px;position:sticky;top:0;z-index:200;box-shadow:0 1px 6px rgba(0,0,0,.08);}
 .hi{max-width:1520px;margin:0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .logo{font-size:17px;font-weight:900;letter-spacing:-.5px;}
 .boy{color:var(--boy);}.girl{color:var(--girl);}
 .badge{background:var(--surface2);border:1px solid var(--border);padding:3px 10px;border-radius:20px;font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
-.badge.b{border-color:rgba(88,166,255,.4);color:var(--boy);background:rgba(88,166,255,.08);}
+.badge.b{border-color:rgba(9,105,218,.35);color:var(--boy);background:rgba(9,105,218,.06);}
 .badge.g{border-color:rgba(255,126,182,.4);color:var(--girl);background:rgba(255,126,182,.08);}
-.badge.y{border-color:rgba(88,166,255,.3);color:#aac8ff;background:rgba(88,166,255,.06);}
+.badge.y{border-color:rgba(9,105,218,.25);color:#0969da;background:rgba(9,105,218,.05);}
 .credit{margin-left:auto;font-size:11px;color:var(--dim);}
 .layout{max-width:1520px;margin:0 auto;padding:18px;display:grid;grid-template-columns:290px 1fr;gap:16px;align-items:start;}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);}
 .ph{padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2);font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;justify-content:space-between;}
 .ph-tgl{cursor:pointer;color:var(--muted);font-size:14px;font-weight:400;text-transform:none;letter-spacing:0;}
 .pb{padding:16px;}
@@ -38,19 +38,19 @@ body{background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-seri
 .gnum{font-size:64px;font-weight:900;font-family:'IBM Plex Mono',monospace;color:var(--accent);line-height:1;letter-spacing:-2px;}
 .glbl{font-size:11px;color:var(--muted);margin-top:4px;}
 input[type=range]{-webkit-appearance:none;width:100%;height:6px;background:var(--surface2);border-radius:3px;outline:none;border:1px solid var(--border);margin-bottom:4px;}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 0 10px rgba(88,166,255,.4);}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:var(--accent);border-radius:50%;cursor:pointer;box-shadow:0 0 10px rgba(9,105,218,.35);}
 .slbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:7px;margin-top:13px;}
 .slbl small{font-size:10px;color:var(--dim);font-weight:400;text-transform:none;letter-spacing:0;}
 .cr{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px;}
 .chip{padding:5px 12px;border-radius:16px;font-size:12px;font-weight:500;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;transition:all .15s;user-select:none;}
 .chip:hover{border-color:var(--accent);color:var(--accent);}
-.chip.active{background:rgba(88,166,255,.18);border-color:var(--accent);color:var(--accent);font-weight:700;}
-.chip.yr.active{background:rgba(255,166,87,.18);border-color:var(--yeongnam);color:var(--yeongnam);}
-.chip.cp.active{background:rgba(88,166,255,.18);border-color:var(--capital);color:var(--capital);}
-.chip.ot.active{background:rgba(63,185,80,.18);border-color:var(--other);color:var(--other);}
+.chip.active{background:rgba(9,105,218,.12);border-color:var(--accent);color:var(--accent);font-weight:700;}
+.chip.yr.active{background:rgba(188,76,0,.12);border-color:var(--yeongnam);color:var(--yeongnam);}
+.chip.cp.active{background:rgba(9,105,218,.12);border-color:var(--capital);color:var(--capital);}
+.chip.ot.active{background:rgba(26,127,55,.14);border-color:var(--other);color:var(--other);}
 .rg{display:flex;gap:5px;margin-bottom:12px;}
 .rb{flex:1;padding:7px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:'IBM Plex Mono',monospace;}
-.rb:hover,.rb.active{background:rgba(88,166,255,.15);border-color:var(--accent);color:var(--accent);}
+.rb:hover,.rb.active{background:rgba(9,105,218,.1);border-color:var(--accent);color:var(--accent);}
 .tr2{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
 .tl{font-size:12px;color:var(--muted);}
 .toggle{position:relative;width:38px;height:21px;}
@@ -58,14 +58,14 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .ts{position:absolute;inset:0;background:var(--surface2);border:1px solid var(--border);border-radius:10px;cursor:pointer;transition:.2s;}
 .ts:before{content:'';position:absolute;width:15px;height:15px;left:2px;top:2px;background:var(--dim);border-radius:50%;transition:.2s;}
 .toggle input:checked + .ts{background:var(--accent);border-color:var(--accent);}
-.toggle input:checked + .ts:before{transform:translateX(17px);background:#0d1117;}
+.toggle input:checked + .ts:before{transform:translateX(17px);background:#ffffff;}
 .sb-in{width:100%;padding:9px 13px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color .15s;}
 .sb-in:focus{border-color:var(--accent);}
 .sb-in::placeholder{color:var(--dim);}
 .hr{border:none;border-top:1px solid var(--border);margin:13px 0;}
 .sort-yr{display:flex;gap:4px;margin-bottom:12px;}
 .sybtn{flex:1;padding:6px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--muted);font-size:11px;font-weight:600;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .15s;}
-.sybtn:hover,.sybtn.active{border-color:var(--accent);color:var(--accent);background:rgba(88,166,255,.12);}
+.sybtn:hover,.sybtn.active{border-color:var(--accent);color:var(--accent);background:rgba(9,105,218,.08);}
 /* 이슈 */
 .issue-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:18px auto 0;overflow:hidden;max-width:1520px;padding:0 18px;}
 .issue-panel > *{margin:0 -18px;}
@@ -86,10 +86,10 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .ic-yr{font-size:10px;font-family:'IBM Plex Mono',monospace;padding:2px 6px;border-radius:3px;}
 .issue-tabs{display:flex;gap:6px;margin-bottom:10px;}
 .itab{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:600;border:1px solid var(--border);background:var(--surface2);color:var(--muted);cursor:pointer;transition:all .15s;}
-.itab.rise.active{background:rgba(247,129,102,.15);border-color:var(--rise);color:var(--rise);}
-.itab.fall.active{background:rgba(63,185,80,.15);border-color:var(--fall);color:var(--fall);}
+.itab.rise.active{background:rgba(207,34,46,.1);border-color:var(--rise);color:var(--rise);}
+.itab.fall.active{background:rgba(26,127,55,.12);border-color:var(--fall);color:var(--fall);}
 /* 모달 */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
 .modal-bg.open{display:flex;}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;width:92%;max-width:960px;max-height:88vh;overflow-y:auto;padding:24px;position:relative;}
 .modal-close{position:absolute;top:16px;right:16px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--muted);padding:6px 12px;cursor:pointer;font-size:13px;}
@@ -100,21 +100,21 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .modal-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:16px;}
 .modal-table th{padding:7px 10px;background:var(--surface2);border-bottom:1px solid var(--border);text-align:left;color:var(--muted);font-size:11px;font-weight:700;}
 .modal-table td{padding:7px 10px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;}
-.modal-table tr:hover td{background:rgba(255,255,255,.03);}
+.modal-table tr:hover td{background:rgba(0,0,0,.03);}
 .sm{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:middle;}
 .reg-tag{font-size:10px;padding:1px 5px;border-radius:3px;font-family:'Noto Sans KR',sans-serif;}
-.reg-영남{background:rgba(255,166,87,.15);color:var(--yeongnam);}
-.reg-수도권{background:rgba(88,166,255,.15);color:var(--capital);}
-.reg-기타{background:rgba(63,185,80,.15);color:var(--other);}
-.chart-btn{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;border:1px solid var(--accent);color:var(--accent);background:rgba(88,166,255,.08);cursor:pointer;margin-left:6px;white-space:nowrap;}
-.chart-btn:hover{background:rgba(88,166,255,.2);}
+.reg-영남{background:rgba(188,76,0,.1);color:var(--yeongnam);}
+.reg-수도권{background:rgba(9,105,218,.1);color:var(--capital);}
+.reg-기타{background:rgba(26,127,55,.12);color:var(--other);}
+.chart-btn{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;border:1px solid var(--accent);color:var(--accent);background:rgba(9,105,218,.06);cursor:pointer;margin-left:6px;white-space:nowrap;}
+.chart-btn:hover{background:rgba(9,105,218,.15);}
 /* results */
 .rp{position:sticky;top:65px;max-height:calc(100vh - 82px);overflow-y:auto;}
 .rh{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2);flex-wrap:wrap;gap:8px;}
 .cnt{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--muted);}
 .cnt strong{color:var(--accent);font-size:17px;}
 .ri{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
-.srow{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;gap:16px;flex-wrap:wrap;background:rgba(255,255,255,.01);}
+.srow{padding:8px 16px;border-bottom:1px solid var(--border);display:flex;gap:16px;flex-wrap:wrap;background:rgba(0,0,0,.015);}
 .st{font-size:11px;color:var(--muted);}
 .st strong{font-family:'IBM Plex Mono',monospace;font-size:12px;}
 table{width:100%;border-collapse:collapse;font-size:13px;}
@@ -126,20 +126,20 @@ thead th.no-sort:hover{color:var(--muted);}
 .sa{margin-left:3px;opacity:.5;font-size:10px;}
 .sorted .sa{opacity:1;}
 tbody tr{border-bottom:1px solid var(--border);transition:background .1s;}
-tbody tr:hover{background:rgba(255,255,255,.03);}
+tbody tr:hover{background:rgba(9,105,218,.04);}
 td{padding:9px 12px;vertical-align:middle;}
 .un{font-weight:700;color:var(--text);font-size:13px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
 .dn{font-size:12px;color:var(--muted);margin-top:2px;}
-.tt{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;margin-top:3px;background:rgba(88,166,255,.1);border:1px solid rgba(88,166,255,.35);color:#8bbfef;font-weight:500;}
+.tt{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;margin-top:3px;background:rgba(9,105,218,.07);border:1px solid rgba(9,105,218,.3);color:#0969da;font-weight:500;}
 /* 3개년 50/70컷 */
 .grade-block{display:flex;flex-direction:column;gap:4px;}
 .cut-hdr{display:flex;align-items:center;margin-bottom:3px;padding-bottom:3px;border-bottom:1px solid var(--border);}
-.cut-lbl{font-size:10px;color:var(--dim);font-family:'IBM Plex Mono',monospace;}
+.cut-lbl{font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
 .cut-lbl.f{width:52px;margin-left:37px;}
 .cut-lbl.s{width:52px;margin-left:28px;}
 .year-row{display:flex;align-items:center;}
 .yr-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-right:6px;}
-.yr-lbl{font-size:10px;color:var(--dim);font-family:'IBM Plex Mono',monospace;width:24px;flex-shrink:0;}
+.yr-lbl{font-size:10px;color:var(--muted);font-family:'IBM Plex Mono',monospace;width:24px;flex-shrink:0;}
 .g50v{font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:14px;width:52px;}
 .cut-sep{font-size:11px;color:var(--dim);width:4px;margin:0 12px;border-left:1px solid var(--border);height:14px;}
 .g70v{font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:13px;color:var(--muted);width:52px;}
@@ -157,15 +157,15 @@ td{padding:9px 12px;vertical-align:middle;}
 .sc-grp{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
 .sc-lbl{font-size:10px;font-weight:700;white-space:nowrap;min-width:42px;}
 .sc-lbl.boy{color:var(--boy);}.sc-lbl.girl{color:var(--girl);}
-.other-tag{display:inline-block;font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;margin-left:4px;background:rgba(247,129,102,.15);border:1px solid rgba(247,129,102,.35);color:var(--fail);vertical-align:middle;}
+.other-tag{display:inline-block;font-size:9px;font-weight:600;padding:1px 5px;border-radius:3px;margin-left:4px;background:rgba(207,34,46,.1);border:1px solid rgba(207,34,46,.3);color:var(--fail);vertical-align:middle;}
 .ct-dept{display:block;font-size:9px;color:var(--dim);margin-top:1px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .ca{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:4px;font-size:10px;font-family:'IBM Plex Mono',monospace;border:1px solid;white-space:nowrap;}
-.ca.pa{background:rgba(63,185,80,.12);border-color:rgba(63,185,80,.35);color:var(--pass);}
-.ca.wl{background:rgba(240,192,64,.12);border-color:rgba(240,192,64,.35);color:var(--waitlist);}
-.ca.fa{background:rgba(247,129,102,.12);border-color:rgba(247,129,102,.35);color:var(--fail);}
+.ca.pa{background:rgba(26,127,55,.1);border-color:rgba(26,127,55,.35);color:var(--pass);}
+.ca.wl{background:rgba(154,103,0,.08);border-color:rgba(154,103,0,.3);color:var(--waitlist);}
+.ca.fa{background:rgba(207,34,46,.08);border-color:rgba(207,34,46,.3);color:var(--fail);}
 .cg{font-weight:700;}.ct{opacity:.65;font-size:9px;}
-.hs-boy td:first-child{border-left:2px solid rgba(88,166,255,.45);}
-.hs-girl td:first-child{border-left:2px solid rgba(255,126,182,.45);}
+.hs-boy td:first-child{border-left:2px solid rgba(9,105,218,.4);}
+.hs-girl td:first-child{border-left:2px solid rgba(191,57,137,.35);}
 .hs-both td:first-child{border-left:3px solid;border-image:linear-gradient(to bottom,var(--boy),var(--girl)) 1;}
 .emp{text-align:center;padding:60px 20px;color:var(--dim);}
 .leg{display:flex;gap:10px;flex-wrap:wrap;}
@@ -228,8 +228,8 @@ td{padding:9px 12px;vertical-align:middle;}
         </div>
         <input type="range" id="gSl" min="10" max="90" value="30" step="1">
         <div style="display:flex;justify-content:space-between;margin-bottom:14px">
-          <span style="font-size:11px;color:var(--dim);font-family:IBM Plex Mono,monospace">1.0</span>
-          <span style="font-size:11px;color:var(--dim);font-family:IBM Plex Mono,monospace">9.0</span>
+          <span style="font-size:11px;color:var(--muted);font-family:IBM Plex Mono,monospace">1.0</span>
+          <span style="font-size:11px;color:var(--muted);font-family:IBM Plex Mono,monospace">9.0</span>
         </div>
         <div class="slbl">탐색 기준 연도</div>
         <div class="sort-yr" id="baseYrBtns">
@@ -266,8 +266,8 @@ td{padding:9px 12px;vertical-align:middle;}
         <div class="slbl">학교 <small>(복수선택)</small></div>
         <div class="cr" id="schoolChips">
           <div class="chip active" data-v="all" onclick="toggleChip(this,'school')">전체</div>
-          <div class="chip" data-v="boy" onclick="toggleChip(this,'school')" style="color:var(--boy);border-color:rgba(88,166,255,.3)">🔵 경일고</div>
-          <div class="chip" data-v="girl" onclick="toggleChip(this,'school')" style="color:var(--girl);border-color:rgba(255,126,182,.3)">🩷 경일여고</div>
+          <div class="chip" data-v="boy" onclick="toggleChip(this,'school')" style="color:var(--boy);border-color:rgba(9,105,218,.25)">🔵 경일고</div>
+          <div class="chip" data-v="girl" onclick="toggleChip(this,'school')" style="color:var(--girl);border-color:rgba(191,57,137,.25)">🩷 경일여고</div>
         </div>
         <div class="slbl">대학·학과 검색</div>
         <input class="sb-in" id="kw" type="text" placeholder="예: 간호, 창원대, 경영..." oninput="render()">
@@ -292,9 +292,9 @@ td{padding:9px 12px;vertical-align:middle;}
         </div>
         <div style="margin-top:7px;font-size:11px;color:var(--dim)">굵은 숫자 = 50%컷 &nbsp;/&nbsp; 회색 = 70%컷</div>
         <div class="leg" style="margin-top:8px">
-          <div class="li"><span class="sq" style="background:rgba(63,185,80,.12);border-color:rgba(63,185,80,.35);color:var(--pass)">✓</span>합격</div>
-          <div class="li"><span class="sq" style="background:rgba(240,192,64,.12);border-color:rgba(240,192,64,.35);color:var(--waitlist)">▲</span>충원</div>
-          <div class="li"><span class="sq" style="background:rgba(247,129,102,.12);border-color:rgba(247,129,102,.35);color:var(--fail)">✗</span>불합격</div>
+          <div class="li"><span class="sq" style="background:rgba(26,127,55,.1);border-color:rgba(26,127,55,.35);color:var(--pass)">✓</span>합격</div>
+          <div class="li"><span class="sq" style="background:rgba(154,103,0,.08);border-color:rgba(154,103,0,.3);color:var(--waitlist)">▲</span>충원</div>
+          <div class="li"><span class="sq" style="background:rgba(207,34,46,.08);border-color:rgba(207,34,46,.3);color:var(--fail)">✗</span>불합격</div>
         </div>
       </div>
     </div>
@@ -391,9 +391,9 @@ function renderIssue() {
     var sign = d.delta > 0 ? '+' : '';
     var reg = d.region==='영남' ? '🔶' : d.region==='수도권' ? '🔷' : '🟢';
     var yrs = '';
-    if (d.y2025) yrs += '<span class="ic-yr" style="background:rgba(88,166,255,.12);color:var(--y25)">&#39;25: '+d.y2025.g50.toFixed(2)+(d.y2025.g70 ? '/'+d.y2025.g70.toFixed(2) : '')+'</span>';
-    if (d.y2024) yrs += '<span class="ic-yr" style="background:rgba(63,185,80,.12);color:var(--y24)">&#39;24: '+d.y2024.g50.toFixed(2)+'</span>';
-    if (d.y2023) yrs += '<span class="ic-yr" style="background:rgba(210,168,255,.12);color:var(--y23)">&#39;23: '+d.y2023.g50.toFixed(2)+'</span>';
+    if (d.y2025) yrs += '<span class="ic-yr" style="background:rgba(9,105,218,.08);color:var(--y25)">&#39;25: '+d.y2025.g50.toFixed(2)+(d.y2025.g70 ? '/'+d.y2025.g70.toFixed(2) : '')+'</span>';
+    if (d.y2024) yrs += '<span class="ic-yr" style="background:rgba(26,127,55,.1);color:var(--y24)">&#39;24: '+d.y2024.g50.toFixed(2)+'</span>';
+    if (d.y2023) yrs += '<span class="ic-yr" style="background:rgba(130,80,223,.1);color:var(--y23)">&#39;23: '+d.y2023.g50.toFixed(2)+'</span>';
     html += '<div class="issue-card '+cls+'" onclick="openChart(\'' + d.dept.replace(/'/g,"\'") + '\')">'
       + '<div class="ic-top">'
       + '<div><div class="ic-univ">'+d.univ+' <span style="font-size:10px;color:var(--muted)">'+reg+'</span></div>'
@@ -433,24 +433,24 @@ function openChart(deptName) {
   chartInst = new Chart(document.getElementById('deptChart').getContext('2d'), {
     type: 'bar',
     data: { labels: labels, datasets: [
-      { label: "'25 50%컷", data: entries.map(function(d){ return g50of(d.y2025); }), backgroundColor:'rgba(88,166,255,.75)', borderColor:'#58a6ff', borderWidth:1, borderRadius:3 },
-      { label: "'25 70%컷", data: entries.map(function(d){ return g70of(d.y2025); }), backgroundColor:'rgba(88,166,255,.3)', borderColor:'#58a6ff', borderWidth:1, borderRadius:3 },
-      { label: "'24 50%컷", data: entries.map(function(d){ return g50of(d.y2024); }), backgroundColor:'rgba(63,185,80,.6)', borderColor:'#3fb950', borderWidth:1, borderRadius:3 },
-      { label: "'23 50%컷", data: entries.map(function(d){ return g50of(d.y2023); }), backgroundColor:'rgba(210,168,255,.4)', borderColor:'#d2a8ff', borderWidth:1, borderRadius:3 }
+      { label: "'25 50%컷", data: entries.map(function(d){ return g50of(d.y2025); }), backgroundColor:'rgba(88,166,255,.75)', borderColor:'#0969da', borderWidth:1, borderRadius:3 },
+      { label: "'25 70%컷", data: entries.map(function(d){ return g70of(d.y2025); }), backgroundColor:'rgba(9,105,218,.25)', borderColor:'#0969da', borderWidth:1, borderRadius:3 },
+      { label: "'24 50%컷", data: entries.map(function(d){ return g50of(d.y2024); }), backgroundColor:'rgba(63,185,80,.6)', borderColor:'#1a7f37', borderWidth:1, borderRadius:3 },
+      { label: "'23 50%컷", data: entries.map(function(d){ return g50of(d.y2023); }), backgroundColor:'rgba(130,80,223,.3)', borderColor:'#8250df', borderWidth:1, borderRadius:3 }
     ]},
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { labels: { color:'#8b949e', font:{ size:11 } } },
-        tooltip: { backgroundColor:'#161b22', borderColor:'#30363d', borderWidth:1,
-          titleColor:'#e6edf3', bodyColor:'#8b949e',
+        legend: { labels: { color:'#656d76', font:{ size:11 } } },
+        tooltip: { backgroundColor:'#f6f8fa', borderColor:'#d0d7de', borderWidth:1,
+          titleColor:'#1f2328', bodyColor:'#656d76',
           callbacks: { label: function(c){ return c.dataset.label+': '+(c.raw != null ? c.raw.toFixed(2) : '없음')+'등급'; } }
         }
       },
       scales: {
-        x: { ticks:{ color:'#484f58', font:{size:9}, maxRotation:45 }, grid:{ color:'rgba(255,255,255,.04)' } },
-        y: { reverse:true, min:1, max:9, ticks:{ color:'#8b949e', stepSize:1 }, grid:{ color:'rgba(255,255,255,.06)' },
-             title:{ display:true, text:'등급 (낮을수록 유리)', color:'#484f58', font:{size:10} } }
+        x: { ticks:{ color:'#9198a1', font:{size:9}, maxRotation:45 }, grid:{ color:'rgba(0,0,0,.04)' } },
+        y: { reverse:true, min:1, max:9, ticks:{ color:'#656d76', stepSize:1 }, grid:{ color:'rgba(0,0,0,.06)' },
+             title:{ display:true, text:'등급 (낮을수록 유리)', color:'#9198a1', font:{size:10} } }
       }
     }
   });
