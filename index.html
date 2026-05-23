@@ -1699,7 +1699,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   <!-- ── PANEL 2: 전국 입결 탐색 ── -->
   <!--
     [STEP04-HTML-01] iframe 통합 방식
-    원본 파일: 2025대학별전형결과(규 수정보완본2).html
+    원본 파일: chart2025.html
     - 같은 폴더에 원본 파일이 있어야 동작함
     - iframe src는 knInitChartFrame() 호출 시 동적으로 설정 (지연 로드)
     - 학생 성적 전달: postMessage({ type:'kyeongil:set-student', ... })
@@ -1779,7 +1779,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
         </div>
 
         <div class="kn-err-desc" style="margin-top:14px;font-size:11px;color:var(--kn-text-m);">
-          필요한 파일: <code>2025대학별전형결과(규 수정보완본2).html</code> (같은 폴더)
+          필요한 파일: <code>chart2025.html</code> (같은 폴더)
         </div>
         <button class="kn-err-retry" onclick="knRetryChartFrame()">🔄 서버 실행 후 다시 시도</button>
       </div>
@@ -3739,7 +3739,7 @@ window.knResetExcel          = knResetExcel;
  * 원본 전형결과 파일명 상수
  * 파일 이름이 바뀌면 이 값만 수정.
  */
-var KN_CHART_FILE = '2025대학별전형결과(규 수정보완본2).html';
+var KN_CHART_FILE = 'chart2025.html';
 
 /**
  * knInitChartFrame()
@@ -4222,7 +4222,7 @@ window.knBridgeStudentToIpsi = knBridgeStudentToIpsi;
 
   배포 폴더 구조
   ├── STEP11_AI프롬프트복사.html               ← 이 파일
-  ├── 2025대학별전형결과(규 수정보완본2).html  ← PATCH A 삽입 필요
+  ├── chart2025.html  ← PATCH A 삽입 필요
   └── ipsi-main/
       └── index.html                           ← PATCH B 삽입 필요
 
