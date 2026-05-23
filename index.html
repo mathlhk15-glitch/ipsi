@@ -459,7 +459,7 @@ html, body {
 
 /* ================================================================
    [STEP05-CSS-01] panel-ipsi-detail iframe 컨테이너
-   ipsi 파일(ipsi.html)은 min-height:100vh 스타일 사용.
+   ipsi 파일(index.html)은 min-height:100vh 스타일 사용.
    chart와 동일 패턴이지만 ID 접두어를 kn-ipsi- 로 구분.
    ================================================================ */
 #kn-ipsi-frame-wrap {
@@ -1513,15 +1513,18 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
         <div id="kn-excel-drop"
              ondragover="event.preventDefault();this.classList.add('kn-drag-over')"
              ondragleave="this.classList.remove('kn-drag-over')"
-             ondrop="event.preventDefault();this.classList.remove('kn-drag-over');knHandleExcelFile(event.dataTransfer.files[0])">
-          <input type="file" accept=".xlsx,.xls,.xlsm"
-                 onchange="knHandleExcelFile(this.files[0])">
+             ondrop="event.preventDefault();this.classList.remove('kn-drag-over');knHandleExcelFiles(event.dataTransfer.files)">
+          <input type="file" accept=".xlsx,.xls,.xlsm" multiple
+                 onchange="knHandleExcelFiles(this.files)">
           <span class="kn-drop-icon">📊</span>
           <div class="kn-drop-label">
             <strong>클릭하거나 파일을 드래그</strong>하여 성적 엑셀을 업로드하세요
           </div>
-          <div class="kn-drop-hint">지원: .xlsx / .xls / .xlsm · 파일이 외부로 전송되지 않습니다</div>
+          <div class="kn-drop-hint">지원: .xlsx / .xls / .xlsm · 여러 파일 동시 업로드 가능 · 파일이 외부로 전송되지 않습니다</div>
         </div>
+
+        <!-- 파일별 탭 (다중 파일 업로드 시 표시) -->
+        <div id="kn-excel-file-tabs" style="display:none;"></div>
 
         <!-- 시트·열 선택 (파싱 후 표시) -->
         <div id="kn-excel-config">
@@ -1696,7 +1699,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   <!-- ── PANEL 2: 전국 입결 탐색 ── -->
   <!--
     [STEP04-HTML-01] iframe 통합 방식
-    원본 파일: chart2025.html
+    원본 파일: 2025대학별전형결과(규 수정보완본2).html
     - 같은 폴더에 원본 파일이 있어야 동작함
     - iframe src는 knInitChartFrame() 호출 시 동적으로 설정 (지연 로드)
     - 학생 성적 전달: postMessage({ type:'kyeongil:set-student', ... })
@@ -1776,7 +1779,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
         </div>
 
         <div class="kn-err-desc" style="margin-top:14px;font-size:11px;color:var(--kn-text-m);">
-          필요한 파일: <code>chart2025.html</code> (같은 폴더)
+          필요한 파일: <code>2025대학별전형결과(규 수정보완본2).html</code> (같은 폴더)
         </div>
         <button class="kn-err-retry" onclick="knRetryChartFrame()">🔄 서버 실행 후 다시 시도</button>
       </div>
@@ -1788,7 +1791,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   <!--
     [STEP05-HTML-01] iframe 통합 방식
     원본 파일: ipsi-main/ipsi.html
-    - 하위 폴더(ipsi-main/)에 ipsi.html이 있어야 동작
+    - 하위 폴더(ipsi-main/)에 index.html이 있어야 동작
     - 외부 CDN 사용(xlsx, Google Fonts) → sandbox allow-scripts allow-same-origin 필요
     - 학생 성적 전달: postMessage({ type:'kyeongil:set-grade', data: APP_STATE.student })
     - 원본 파일 수신 패치는 STEP06에서 진행 (20줄 미만, 단독 동작 영향 없음)
@@ -3736,7 +3739,7 @@ window.knResetExcel          = knResetExcel;
  * 원본 전형결과 파일명 상수
  * 파일 이름이 바뀌면 이 값만 수정.
  */
-var KN_CHART_FILE = 'chart2025.html';
+var KN_CHART_FILE = '2025대학별전형결과(규 수정보완본2).html';
 
 /**
  * knInitChartFrame()
@@ -4219,9 +4222,9 @@ window.knBridgeStudentToIpsi = knBridgeStudentToIpsi;
 
   배포 폴더 구조
   ├── STEP11_AI프롬프트복사.html               ← 이 파일
-  ├── chart2025.html  ← PATCH A 삽입 필요
+  ├── 2025대학별전형결과(규 수정보완본2).html  ← PATCH A 삽입 필요
   └── ipsi-main/
-      └── ipsi.html                           ← PATCH B 삽입 필요
+      └── index.html                           ← PATCH B 삽입 필요
 
   PATCH A/B: STEP06_원본파일_패치가이드.html 참조
   ================================================================
