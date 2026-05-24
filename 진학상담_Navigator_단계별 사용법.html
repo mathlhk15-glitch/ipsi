@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>진학상담 Navigator 사용 가이드</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap');
+
+  :root {
+    --navy: #1a2744;
+    --navy-light: #243358;
+    --blue: #2c5fad;
+    --blue-light: #4a7fd4;
+    --sky: #e8f0fb;
+    --sky-mid: #c8dbf6;
+    --accent: #e85d26;
+    --accent-light: #fdf0eb;
+    --green: #1d8a5e;
+    --green-light: #e6f5ef;
+    --amber: #b87a12;
+    --amber-light: #fef8e7;
+    --red: #c0392b;
+    --red-light: #fdf0ee;
+    --gray-0: #f8f9fc;
+    --gray-1: #eef1f7;
+    --gray-2: #d8dde8;
+    --gray-3: #9aa3b8;
+    --gray-4: #5a6278;
+    --gray-5: #2d3247;
+    --white: #ffffff;
+    --text: #1e2235;
+    --text-m: #4a5068;
+    --text-s: #7a8099;
+    --radius: 10px;
+    --radius-lg: 16px;
+    --shadow: 0 2px 12px rgba(26,39,68,0.09);
+    --shadow-md: 0 4px 24px rgba(26,39,68,0.13);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    background: var(--gray-0);
+  }
+
+  /* ── 헤더 ── */
+  .hd {
+    background: var(--navy);
+    color: var(--white);
+    padding: 48px 0 36px;
+    text-align: center;
+  }
+  .hd-badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 18px;
+  }
+  .hd h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+  .hd-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,.6);
+  }
+  .hd-chips {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .hd-chip {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.85);
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+
+  /* ── 레이아웃 ── */
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+  .section { padding: 52px 0 0; }
+  .section:last-of-type { padding-bottom: 72px; }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .step-num {
+    width: 32px; height: 32px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+  .section-desc {
+    font-size: 14px;
+    color: var(--text-m);
+    margin-left: 42px;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  /* ── 카드 ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+  .card-hd {
+    padding: 16px 22px;
+    background: var(--navy);
+    color: var(--white);
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-hd .icon {
+    width: 20px; height: 20px;
+    background: rgba(255,255,255,.18);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+  }
+  .card-body { padding: 22px; }
+
+  /* ── 성적표 모의 화면 ── */
+  .mock-screen {
+    background: #f4f6fc;
+    border: 1.5px solid var(--gray-2);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .mock-bar {
+    background: #e0e5ef;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mock-url {
+    background: #fff;
+    border-radius: 6px;
+    padding: 3px 12px;
+    font-size: 11px;
+    color: var(--gray-4);
+    flex: 1;
+  }
+  .mock-content { padding: 18px 20px; }
+
+  /* ── 성적 입력 테이블 시뮬레이터 ── */
+  .grade-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .grade-table th {
+    background: var(--navy);
+    color: #fff;
+    padding: 9px 12px;
+    text-align: left;
+    font-weight: 500;
+  }
+  .grade-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--gray-1);
+    color: var(--text-m);
+  }
+  .grade-table tr:hover td { background: var(--sky); }
+  .grade-tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 12px;
+  }
+  .g1 { background: #1a2744; color: #fff; }
+  .g2 { background: var(--blue); color: #fff; }
+  .g3 { background: var(--blue-light); color: #fff; }
+  .g4 { background: var(--amber-light); color: var(--amber); border: 1px solid #e0c070; }
+  .g5 { background: #fdeee6; color: #c04a10; border: 1px solid #f0c0a0; }
+  .g6 { background: var(--red-light); color: var(--red); border: 1px solid #f0b0a8; }
+  .g7 { background: #fce8e8; color: #a02020; border: 1px solid #e8a8a8; }
+  .gA { background: var(--green-light); color: var(--green); border: 1px solid #9ed5c0; }
+
+  /* ── 탭 탐색 화면 ── */
+  .tab-bar {
+    display: flex;
+    gap: 3px;
+    background: var(--gray-1);
+    padding: 6px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  .tab-item {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 7px;
+    font-size: 12px;
+    color: var(--gray-4);
+    cursor: default;
+  }
+  .tab-item.active {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 600;
+  }
+  .tab-num {
+    display: inline-flex;
+    width: 16px; height: 16px;
+    background: rgba(255,255,255,.25);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    margin-right: 4px;
+  }
+
+  /* ── 검색/필터 화면 ── */
+  .filter-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .filter-box {
+    background: #fff;
+    border: 1px solid var(--gray-2);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 12px;
+    color: var(--text-m);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .filter-box.active {
+    border-color: var(--blue);
+    background: var(--sky);
+    color: var(--blue);
+    font-weight: 600;
+  }
+  .filter-box select {
+    border: none;
+    background: transparent;
+    font-size: 12px;
+    color: var(--text-m);
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* ── 결과 카드 목록 ── */
+  .result-list { display: flex; flex-direction: column; gap: 10px; }
+  .result-item {
+    background: #fff;
+    border: 1px solid var(--gray-2);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .result-item.highlight { border-color: var(--blue); border-width: 2px; }
+  .univ-badge {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: var(--navy);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .result-info { flex: 1; }
+  .result-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+  .result-dept { font-size: 12px; color: var(--text-s); }
+  .result-meta {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .meta-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid;
+  }
+  .tag-safe { background: var(--green-light); color: var(--green); border-color: #9ed5c0; }
+  .tag-fit  { background: var(--sky); color: var(--blue); border-color: var(--sky-mid); }
+  .tag-try  { background: var(--amber-light); color: var(--amber); border-color: #e0c070; }
+  .tag-risk { background: var(--red-light); color: var(--red); border-color: #f0b0a8; }
+  .result-grade {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .grade-label { font-size: 10px; color: var(--text-s); }
+  .grade-val { font-size: 18px; font-weight: 700; color: var(--navy); }
+
+  /* ── 상담 멘트 박스 ── */
+  .tip-box {
+    background: var(--sky);
+    border-left: 4px solid var(--blue);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--navy-light);
+  }
+  .tip-box strong { color: var(--blue); font-weight: 700; }
+  .tip-box .tip-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    color: var(--blue);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+
+  .warn-box {
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 14px;
+    color: #6b4a08;
+  }
+  .warn-box .tip-label { color: var(--amber); }
+
+  .good-box {
+    background: var(--green-light);
+    border-left: 4px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    margin: 14px 0;
+    font-size: 14px;
+    color: #0d4f33;
+  }
+  .good-box .tip-label { color: var(--green); }
+
+  /* ── 단계 흐름도 ── */
+  .flow {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: wrap;
+    margin: 8px 0 20px;
+  }
+  .flow-step {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 8px;
+    position: relative;
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+  }
+  .flow-step.done { background: var(--green); }
+  .flow-step.now  { background: var(--accent); }
+  .flow-arrow {
+    width: 28px;
+    text-align: center;
+    color: var(--gray-3);
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* ── 학생 프로필 카드 ── */
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .profile-item {
+    background: var(--gray-0);
+    border: 1px solid var(--gray-1);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .pi-label { font-size: 11px; color: var(--text-s); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .05em; }
+  .pi-val { font-size: 15px; font-weight: 700; color: var(--navy); }
+  .pi-sub { font-size: 12px; color: var(--text-m); margin-top: 2px; }
+
+  /* ── 강점/약점 태그 ── */
+  .strength-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .str-tag {
+    padding: 5px 13px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .str-strong { background: var(--navy); color: #fff; }
+  .str-good   { background: var(--blue-light); color: #fff; }
+  .str-avg    { background: var(--gray-1); color: var(--gray-4); }
+  .str-weak   { background: var(--red-light); color: var(--red); }
+
+  /* ── 대학 분류 표 ── */
+  .univ-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 14px 0;
+  }
+  .univ-col {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .univ-col-hd {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: center;
+  }
+  .col-try .univ-col-hd  { background: var(--amber); color: #fff; }
+  .col-fit .univ-col-hd  { background: var(--blue); color: #fff; }
+  .col-safe .univ-col-hd { background: var(--green); color: #fff; }
+  .univ-col-body { background: var(--gray-0); border: 1px solid var(--gray-1); border-top: none; padding: 12px 14px; }
+  .univ-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 0;
+    border-bottom: 1px dashed var(--gray-2);
+    font-size: 13px;
+    color: var(--text);
+  }
+  .univ-item:last-child { border-bottom: none; }
+  .univ-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-try  { background: var(--amber); }
+  .dot-fit  { background: var(--blue); }
+  .dot-safe { background: var(--green); }
+  .univ-grade { margin-left: auto; font-size: 11px; color: var(--text-s); }
+
+  /* ── 상담 스크립트 ── */
+  .script-block {
+    background: #fff;
+    border: 1px solid var(--gray-2);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 14px 0;
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text);
+  }
+  .script-who {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .who-teacher { background: var(--navy); color: #fff; }
+  .who-student { background: var(--sky-mid); color: var(--navy); }
+
+  /* ── FAQ ── */
+  .faq-item {
+    border: 1px solid var(--gray-2);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: #fff;
+  }
+  .faq-q {
+    padding: 15px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .faq-qmark {
+    width: 22px; height: 22px;
+    background: var(--blue);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .faq-a {
+    padding: 14px 18px 16px 50px;
+    font-size: 14px;
+    color: var(--text-m);
+    border-top: 1px dashed var(--gray-2);
+    background: var(--gray-0);
+    line-height: 1.75;
+  }
+
+  /* ── 체크리스트 ── */
+  .checklist { list-style: none; margin: 10px 0; }
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 14px;
+    border-bottom: 1px solid var(--gray-1);
+    color: var(--text-m);
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .check-icon {
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    background: var(--green-light);
+    border: 1.5px solid var(--green);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── 구분선 ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 28px 0;
+  }
+
+  /* ── 하단 정리 ── */
+  .summary-strip {
+    background: var(--navy);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 28px 28px;
+    margin-top: 48px;
+  }
+  .summary-strip h3 { font-size: 17px; font-weight: 700; margin-bottom: 14px; }
+  .summary-strip ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .summary-strip li {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    align-items: flex-start;
+    color: rgba(255,255,255,.85);
+  }
+  .summary-strip li::before {
+    content: '✓';
+    color: #7eddb8;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .profile-grid { grid-template-columns: 1fr; }
+    .univ-grid { grid-template-columns: 1fr; }
+    .flow { flex-direction: column; gap: 6px; }
+    .flow-arrow { transform: rotate(90deg); }
+    .hd h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── 헤더 ── -->
+<div class="hd">
+  <div class="wrap">
+    <div class="hd-badge">초보 교사 맞춤 완전 가이드</div>
+    <h1>진학상담 Navigator<br>단계별 사용법</h1>
+    <div class="hd-sub">학생 기준값 입력부터 전국 입결 탐색·도전/적정/안정 분류·상담 리포트까지 — 한 번에 정리</div>
+    <div class="hd-chips">
+      <span class="hd-chip">🌐 온라인 접속</span>
+      <span class="hd-chip">🏫 전국 입결 탐색</span>
+      <span class="hd-chip">🎯 도전·적정·안정 분류</span>
+      <span class="hd-chip">💬 상담 멘트 예시</span>
+      <span class="hd-chip">🎯 기계공학과 적용 사례</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ──────────────────────────────────────
+     STEP 0: 이 가이드를 읽기 전에
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">0</div>
+    <div class="section-title">준비 — 이 가이드를 이렇게 활용하세요</div>
+  </div>
+  <div class="section-desc">GitHub Pages 등 온라인 주소로 접속해 사용하는 실제 프로그램 화면 흐름을 기준으로 설명합니다.<br>학생 이름과 학번은 상담용 예시이며, 실제 상담에서는 학교 기준에 맞게 입력하세요.</div>
+
+  <div class="card">
+    <div class="card-hd"><div class="icon">📋</div> 이 가이드의 전체 흐름</div>
+    <div class="card-body">
+      <div class="flow">
+        <div class="flow-step done">① 학생 기준값 입력</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step now">② 전국 입결 탐색</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">③ 관심 학과 비교</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">④ 교과 정밀 판정·리포트</div>
+      </div>
+      <p style="font-size:14px; color:var(--text-m);">각 단계는 아래 섹션에서 화면 예시와 함께 설명합니다. 순서대로 따라오시면 됩니다.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────
+     STEP 1: 학생 성적 탭 — 학생 기준값 입력
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">1</div>
+    <div class="section-title">① 학생 성적 탭 — 상담 기준값 입력하기</div>
+  </div>
+  <div class="section-desc">
+    프로그램을 처음 열면 <strong>「1 학생 성적」</strong> 탭이 보입니다. 이 화면에서는 성적 엑셀을 반드시 업로드해야 하는 것이 아니라, 상담에 사용할 <strong>학생 이름·학번·9등급 환산 평균·5등급 참고값·내신 기반 상위 누적 백분위 추정값</strong>을 입력합니다.
+  </div>
+
+  <div class="good-box">
+    <div class="tip-label">✅ 온라인 운영 기준</div>
+    이 프로그램은 GitHub Pages 등 온라인 주소로 접속해 사용하는 구조입니다. 별도로 <code>python -m http.server</code>를 실행하거나 Live Server를 켤 필요가 없습니다. 학교 내부망·개인 노트북·태블릿에서 같은 주소로 접속해 사용할 수 있습니다.
+  </div>
+
+  <div class="mock-screen">
+    <div class="mock-bar">
+      <div class="mock-dot" style="background:#ff5f57"></div>
+      <div class="mock-dot" style="background:#febc2e"></div>
+      <div class="mock-dot" style="background:#28c840"></div>
+      <div class="mock-url">https://사용자명.github.io/ipsi-main/index.html</div>
+    </div>
+    <div class="mock-content" style="background:#ede8de;">
+      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:8px;">경일 진학상담 Navigator <span style="font-size:10px;color:var(--text-s);">v1 · 학생 성적 기반 대학전형 탐색 및 상담 리포트 도구</span></div>
+      <div class="tab-bar" style="background:#ded6c8;">
+        <div class="tab-item active"><span class="tab-num">1</span>학생 성적</div>
+        <div class="tab-item"><span class="tab-num">2</span>전국 입결 탐색</div>
+        <div class="tab-item"><span class="tab-num">3</span>관심 학과 비교</div>
+        <div class="tab-item"><span class="tab-num">4</span>교과 정밀 판정</div>
+        <div class="tab-item"><span class="tab-num">5</span>상담 리포트</div>
+      </div>
+      <div style="font-size:12px;color:var(--text-m);margin:8px 0 18px;">현재 학생: 학생 성적 탭에서 학생을 선택하거나 성적을 입력하세요.</div>
+
+      <div style="max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#f5efe3;border-radius:14px;box-shadow:var(--shadow);padding:18px;border:1px solid #ded2bd;">
+          <div style="font-size:12px;font-weight:700;color:#8b6b32;border-bottom:1px solid #d6c291;padding-bottom:8px;margin-bottom:14px;">⓪ 성적 엑셀 업로드 <span style="font-size:10px;color:var(--text-s);">선택 — 학교 성적 처리 작업용</span></div>
+          <div style="border:2px dashed #d6c291;border-radius:12px;background:#f9f6ef;padding:24px;text-align:center;">
+            <div style="font-size:28px;margin-bottom:6px;">📊</div>
+            <div style="font-size:13px;font-weight:700;color:var(--navy);">클릭하거나 파일을 드래그하여 성적 엑셀을 업로드하세요</div>
+            <div style="font-size:11px;color:var(--text-s);margin-top:4px;">.xlsx / .xls / .xlsm 파일 지원 · 직접 입력만으로도 상담 가능</div>
+          </div>
+        </div>
+
+        <div style="background:#f5efe3;border-radius:14px;box-shadow:var(--shadow);padding:18px;border:1px solid #ded2bd;">
+          <div style="font-size:12px;font-weight:700;color:#8b6b32;border-bottom:1px solid #d6c291;padding-bottom:8px;margin-bottom:14px;">① 학생 기본 정보</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div><div style="font-size:11px;font-weight:700;margin-bottom:5px;">학생 이름</div><div class="filter-box" style="height:36px;justify-content:flex-start;">예) 홍길동</div></div>
+            <div><div style="font-size:11px;font-weight:700;margin-bottom:5px;">학번 (선택)</div><div class="filter-box" style="height:36px;justify-content:flex-start;">예) 3-1-15</div></div>
+          </div>
+        </div>
+
+        <div style="background:#f5efe3;border-radius:14px;box-shadow:var(--shadow);padding:18px;border:1px solid #ded2bd;">
+          <div style="font-size:12px;font-weight:700;color:#8b6b32;border-bottom:1px solid #d6c291;padding-bottom:8px;margin-bottom:14px;">② 9등급 환산 평균</div>
+          <div style="font-size:11px;font-weight:700;margin-bottom:5px;">직접 입력</div>
+          <div class="filter-box" style="height:36px;justify-content:flex-start;">예) 2.47</div>
+          <div style="font-size:11px;color:var(--text-s);margin-top:6px;">1.00~9.00 사이 소수 입력 · 학생부교과 70%컷과 비교할 핵심 기준입니다.</div>
+          <div style="margin-top:12px;height:8px;background:#ded6c8;border-radius:8px;position:relative;"><span style="position:absolute;left:35%;top:-5px;width:18px;height:18px;background:#cda24a;border-radius:50%;"></span><span style="float:right;font-size:11px;font-weight:700;color:var(--navy);margin-top:10px;">3.00</span></div>
+        </div>
+
+        <div style="background:#f5efe3;border-radius:14px;box-shadow:var(--shadow);padding:18px;border:1px solid #ded2bd;">
+          <div style="font-size:12px;font-weight:700;color:#8b6b32;border-bottom:1px solid #d6c291;padding-bottom:8px;margin-bottom:14px;">③ 5등급 참고값 <span style="font-size:10px;color:var(--accent);">2028학년도 선택 입력</span></div>
+          <div class="filter-box" style="height:36px;justify-content:flex-start;">예) 2.10</div>
+          <div style="font-size:11px;color:var(--text-s);margin-top:6px;">2028학년도 이후 5등급제 전환 상담에서 보조 자료로 사용합니다.</div>
+        </div>
+
+        <div style="background:#f5efe3;border-radius:14px;box-shadow:var(--shadow);padding:18px;border:1px solid #ded2bd;">
+          <div style="font-size:12px;font-weight:700;color:#8b6b32;border-bottom:1px solid #d6c291;padding-bottom:8px;margin-bottom:14px;">④ 내신 기반 상위 누적 백분위 추정 <span style="font-size:10px;color:var(--text-s);">수능/모의고사 백분위 아님</span></div>
+          <div class="filter-box" style="height:36px;justify-content:flex-start;">예) 15.3</div>
+          <div style="font-size:11px;color:var(--text-s);margin-top:6px;">9등급 내신을 경기진협 앵커포인트 기준으로 환산한 참고값입니다. 수능 백분위와 혼동하지 않습니다.</div>
+        </div>
+
+        <div style="display:flex;gap:10px;margin-bottom:4px;">
+          <span style="background:var(--navy);color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;">✓ 학생 성적 적용</span>
+          <span style="background:#fff;color:var(--text-m);padding:10px 18px;border-radius:8px;font-size:13px;font-weight:700;box-shadow:var(--shadow);">초기화</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">💡 초보 교사 팁</div>
+    상담을 시작할 때는 먼저 <strong>9등급 환산 평균</strong>을 입력하고 「학생 성적 적용」을 누르세요. 이 값이 3번 관심 학과 비교와 4번 교과 정밀 판정의 기본 학생 내신으로 자동 연동됩니다. 엑셀 업로드는 여러 학생 성적을 일괄 관리할 때만 사용하면 됩니다.
+  </div>
+
+  <div class="card">
+    <div class="card-hd"><div class="icon">📌</div> 첫 화면에서 입력하는 값의 의미</div>
+    <div class="card-body">
+      <table style="width:100%;font-size:13px;border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--navy);color:#fff;">
+            <th style="padding:8px 12px;text-align:left;">항목</th>
+            <th style="padding:8px 12px;text-align:left;">상담에서의 의미</th>
+            <th style="padding:8px 12px;text-align:left;">주의점</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--gray-1);"><td style="padding:8px 12px;font-weight:700;">9등급 환산 평균</td><td style="padding:8px 12px;color:var(--text-m);">학생부교과 70%컷과 비교하는 핵심 내신값</td><td style="padding:8px 12px;color:var(--text-m);">숫자가 낮을수록 유리</td></tr>
+          <tr style="border-bottom:1px solid var(--gray-1);"><td style="padding:8px 12px;font-weight:700;">5등급 참고값</td><td style="padding:8px 12px;color:var(--text-m);">2028학년도 이후 5등급제 상담 보조값</td><td style="padding:8px 12px;color:var(--text-m);">현재 9등급 자료와 직접 비교하지 않음</td></tr>
+          <tr><td style="padding:8px 12px;font-weight:700;">내신 기반 상위 누적 백분위 추정</td><td style="padding:8px 12px;color:var(--text-m);">전국 입결 탐색의 위치 감각을 잡기 위한 참고값</td><td style="padding:8px 12px;color:var(--text-m);">수능/모의고사 백분위가 아님</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ──────────────────────────────────────
+     STEP 2: 전국 입결 탐색 탭
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">2</div>
+    <div class="section-title">② 전국 입결 탐색 탭 — 2025 대학별 전형결과 확인하기</div>
+  </div>
+  <div class="section-desc">
+    상단 탭에서 <strong>「2 전국 입결 탐색」</strong>을 누르면 2025 대학별 전형결과 화면이 열립니다. 이 화면은 자동 추천 목록이 아니라, <strong>전형유형·대학명·학과명·지역·설립유형</strong>을 기준으로 입결 자료를 탐색하는 화면입니다.
+  </div>
+
+  <div class="mock-screen">
+    <div class="mock-bar">
+      <div class="mock-dot" style="background:#ff5f57"></div>
+      <div class="mock-dot" style="background:#febc2e"></div>
+      <div class="mock-dot" style="background:#28c840"></div>
+      <div class="mock-url">https://사용자명.github.io/ipsi-main/index.html</div>
+    </div>
+    <div class="mock-content" style="background:#eee9df;">
+      <div style="font-size:14px;font-weight:800;color:var(--navy);margin-bottom:8px;">경일 진학상담 Navigator <span style="font-size:10px;color:var(--text-s);">v1</span></div>
+      <div class="tab-bar" style="background:#ded6c8;">
+        <div class="tab-item"><span class="tab-num">1</span>학생 성적</div>
+        <div class="tab-item active"><span class="tab-num">2</span>전국 입결 탐색</div>
+        <div class="tab-item"><span class="tab-num">3</span>관심 학과 비교</div>
+        <div class="tab-item"><span class="tab-num">4</span>교과 정밀 판정</div>
+        <div class="tab-item"><span class="tab-num">5</span>상담 리포트</div>
+      </div>
+      <div style="font-size:12px;color:var(--text-m);margin:8px 0 12px;">현재 학생: 학생 성적 탭에서 학생을 선택하거나 성적을 입력하세요.</div>
+
+      <div style="background:#f8f3e8;border:1px solid #d8c499;border-radius:10px;box-shadow:var(--shadow);padding:14px;margin-bottom:14px;">
+        <div style="display:grid;grid-template-columns:1.1fr 1.1fr 1.2fr 1.1fr;gap:14px;align-items:start;">
+          <div><div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:8px;">① 전형 선택</div><ul style="font-size:11px;color:var(--text-m);line-height:1.7;padding-left:14px;"><li><strong>수능위주</strong>: 상위 누적 백분위 기준</li><li><strong>학생부교과</strong>: 70%컷 내신 기준</li><li><strong>학생부종합</strong>: 정성평가 참고</li></ul></div>
+          <div><div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:8px;">② 대학·학과 탐색</div><ul style="font-size:11px;color:var(--text-m);line-height:1.7;padding-left:14px;"><li>대학명·학과명 키워드 검색</li><li>기계, 전자, 간호처럼 짧게 입력</li><li>결과는 아래 차트에서 확인</li></ul></div>
+          <div><div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:8px;">③ 대학 클릭 → 상세 패널</div><ul style="font-size:11px;color:var(--text-m);line-height:1.7;padding-left:14px;"><li>대학 행을 클릭하면 상세 데이터 확인</li><li>전형·학과별 분포와 컷 확인</li><li>관심 대학은 3번 탭에서 다시 분류</li></ul></div>
+          <div><div style="font-size:12px;font-weight:800;color:var(--navy);margin-bottom:8px;">추가 안내</div><ul style="font-size:11px;color:var(--text-m);line-height:1.7;padding-left:14px;"><li>자료 출처: 대입정보포털 대입어디가</li><li>2025학년도 전형결과 기준</li><li>수능위주와 교과 자료를 구분</li></ul></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;margin:12px 0;align-items:center;">
+        <span style="background:#fff;border:1px solid var(--blue);color:var(--blue);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;">수능위주</span>
+        <span style="background:#fff;border:1px solid #d6c291;color:var(--text-m);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;">학생부교과</span>
+        <span style="background:#fff;border:1px solid #d6c291;color:var(--text-m);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700;">학생부종합</span>
+      </div>
+
+      <div style="text-align:center;margin:12px 0 10px;">
+        <div style="font-size:24px;font-weight:800;color:var(--navy);line-height:1.1;">2025</div>
+        <div style="font-size:15px;font-weight:800;color:var(--navy);">대학별 전형결과</div>
+        <div style="font-size:11px;color:var(--text-s);margin-top:4px;">163개 대학 · 전형별 자료 탐색</div>
+      </div>
+
+      <div style="display:flex;gap:8px;flex-wrap:wrap;background:#f8f3e8;border:1px solid #d8c499;border-radius:8px;padding:8px;margin-bottom:10px;">
+        <span class="filter-box" style="height:30px;">학과 기준</span>
+        <span class="filter-box" style="height:30px;">상위 누적 백분위 입력</span>
+        <span class="filter-box" style="height:30px;">★ 관심목록</span>
+        <span class="filter-box" style="height:30px;">비교표 출력</span>
+        <span class="filter-box" style="height:30px;">AI 데이터 확인</span>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;background:#f8f3e8;border:1px solid #d8c499;border-radius:8px;padding:8px;margin-bottom:8px;">
+        <span class="filter-box" style="height:28px;">지역 전체</span>
+        <span class="filter-box" style="height:28px;">계열 전체</span>
+        <span class="filter-box" style="height:28px;">모집군 전체</span>
+        <span class="filter-box" style="height:28px;">선택 전체</span>
+        <span class="filter-box" style="height:28px;min-width:100px;">대학명 검색</span>
+        <span class="filter-box" style="height:28px;min-width:100px;">학과명 검색</span>
+      </div>
+
+      <div style="background:#f5efe3;border:1px solid #d8c499;border-radius:8px;overflow:hidden;">
+        <div style="display:grid;grid-template-columns:120px 1fr 55px;font-size:10px;color:var(--text-s);padding:6px 8px;border-bottom:1px solid #d8c499;">
+          <div>대학</div><div>전형결과 분포</div><div style="text-align:right;">기준값</div>
+        </div>
+        <div style="height:260px;overflow:hidden;">
+          <table style="width:100%;border-collapse:collapse;font-size:11px;">
+            <tbody>
+              <tr style="background:#ede6d9;"><td style="width:120px;padding:6px 8px;font-weight:700;">서울대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">3.50</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:700;">고려대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">5.33</td></tr>
+              <tr style="background:#ede6d9;"><td style="padding:6px 8px;font-weight:700;">한양대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">7.25</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:700;">성균관대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">7.50</td></tr>
+              <tr style="background:#ede6d9;"><td style="padding:6px 8px;font-weight:700;">중앙대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">9.12</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:700;">경희대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">11.01</td></tr>
+              <tr style="background:#ede6d9;"><td style="padding:6px 8px;font-weight:700;">건국대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">11.51</td></tr>
+              <tr><td style="padding:6px 8px;font-weight:700;">서울시립대학교</td><td style="padding:6px 8px;"><span style="letter-spacing:2px;color:var(--navy);">●●●●●●●●</span></td><td style="text-align:right;padding:6px 8px;color:#8b6b32;">12.31</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">💡 사용 순서</div>
+    ① 전형유형을 먼저 고릅니다. ② 대학명 또는 학과명을 검색합니다. ③ 차트에서 관심 대학의 위치를 확인합니다. ④ 상담 후보로 삼을 대학·학과는 <strong>3번 관심 학과 비교</strong> 탭에서 다시 선택해 도전·적정·안정 분류를 확인합니다.
+  </div>
+
+  <div class="card">
+    <div class="card-hd"><div class="icon">⚠️</div> 전국 입결 탐색 탭에서 헷갈리기 쉬운 점</div>
+    <div class="card-body">
+      <ul class="checklist">
+        <li><div class="check-icon">✓</div><div><strong>카드형 추천 목록이 자동으로 뜨는 화면이 아닙니다.</strong> 실제 화면은 2025 대학별 전형결과를 차트와 필터로 탐색하는 구조입니다.</div></li>
+        <li><div class="check-icon">✓</div><div><strong>수능위주</strong>에서 입력하는 상위 누적 백분위는 수능/모의고사 기준입니다.</div></li>
+        <li><div class="check-icon">✓</div><div><strong>학생부교과</strong> 상담에서는 3번 탭의 70%컷 내신 비교가 더 직접적인 판단 기준입니다.</div></li>
+        <li><div class="check-icon">✓</div><div><strong>학생부종합</strong>은 내신만으로 판정하지 않고, 생기부 활동·전공적합성·학업역량을 함께 봐야 합니다.</div></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<!-- ──────────────────────────────────────
+     STEP 3: 지원 분류표 — 프로그램 자동 생성
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">3</div>
+    <div class="section-title">③ 관심 학과 비교 탭 — 도전·적정·안정 자동 분류 보기</div>
+  </div>
+  <div class="section-desc">
+    「3 관심 학과 비교」 탭에서 대학과 학과를 <strong>드롭다운으로 선택</strong>하면, 프로그램에 포함된 <strong>2025 학생부교과 70%컷</strong>이 자동 연동됩니다.<br>
+    화면에는 먼저 도전·적정·안정 <strong>카드형 요약</strong>이 나오고, 필요한 경우 「전체 상세표 보기」를 눌러 세부 학과·대학 표를 펼쳐볼 수 있습니다.
+  </div>
+
+  <!-- 사용 방법 안내 카드 -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">⚙️</div> 분류표 생성 방법 — 관심 학과 탭에서 입력하세요</div>
+    <div class="card-body">
+
+      <!-- 입력 흐름 -->
+      <div class="flow" style="margin-bottom:20px;">
+        <div class="flow-step done">① 학생 성적 탭<br><span style="font-size:11px;opacity:.8;">내신 설정</span></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step now">② 관심 학과 탭<br><span style="font-size:11px;opacity:.8;">대학·학과 입력</span></div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">③ 분류표 자동 생성<br><span style="font-size:11px;opacity:.8;">도전·적정·안정</span></div>
+      </div>
+
+      <!-- 입력 필드 설명 -->
+      <div style="background:var(--gray-0); border:1px solid var(--gray-2); border-radius:10px; padding:16px 18px; margin-bottom:16px;">
+        <p style="font-size:13px; font-weight:700; color:var(--navy); margin-bottom:12px;">관심 학과 추가 폼에서 이렇게 선택하세요</p>
+        <table style="width:100%; font-size:13px; border-collapse:collapse;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--gray-1);">
+              <td style="padding:7px 10px; font-weight:600; color:var(--navy); width:30%;">대학명</td>
+              <td style="padding:7px 10px; color:var(--text-m);">드롭다운에서 대학 선택 예) 경북대학교</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--gray-1);">
+              <td style="padding:7px 10px; font-weight:600; color:var(--navy);">학과(부)명</td>
+              <td style="padding:7px 10px; color:var(--text-m);">대학 선택 후 표시되는 학과 드롭다운에서 선택 예) 기계공학부</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--gray-1);">
+              <td style="padding:7px 10px; font-weight:600; color:var(--navy);">전형 유형</td>
+              <td style="padding:7px 10px; color:var(--text-m);"><strong>학생부교과</strong> 선택 시 분류표에 반영됨</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--gray-1);">
+              <td style="padding:7px 10px; font-weight:600; color:var(--accent);">70%컷 내신</td>
+              <td style="padding:7px 10px; color:var(--text-m);"><strong>자동 연동</strong> — 대학명·학과명과 일치하는 2025 학생부교과 70%컷을 프로그램이 찾아 반영</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 10px; font-weight:600; color:var(--navy);">목표 구분</td>
+              <td style="padding:7px 10px; color:var(--text-m);"><strong>자동 (70%컷 기준)</strong> 그대로 두면 자동 분류됨</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tip-box" style="margin-top:0;">
+        <div class="tip-label">💡 합격컷은 어디서 오나요?</div>
+        프로그램에 포함된 2025 학생부교과 전형결과의 <strong>70%컷 내신</strong>이 자동으로 연결됩니다. 단, 대학을 먼저 선택하면 해당 대학의 70%컷 자료가 있는 학과만 드롭다운에 표시됩니다. 따라서 학과명을 직접 정확히 입력할 필요가 없습니다.
+      </div>
+    </div>
+  </div>
+
+  <!-- 자동 분류 기준 설명 카드 -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">📐</div> 자동 분류 기준 — 이렇게 계산됩니다</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:14px;">
+        <strong>컷 등급 − 학생 환산 내신 = 차이값</strong>으로 자동 판정합니다.<br>
+        <span style="font-size:12px;">(등급은 숫자가 낮을수록 좋으므로, 차이가 양수이면 학생이 유리한 상황입니다.)</span>
+      </p>
+      <table style="width:100%; font-size:13px; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--navy); color:#fff;">
+            <th style="padding:8px 12px; text-align:left;">분류</th>
+            <th style="padding:8px 12px; text-align:left;">기준 (컷 − 학생 내신)</th>
+            <th style="padding:8px 12px; text-align:left;">의미</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--gray-1);">
+            <td style="padding:8px 12px;"><span style="background:var(--green); color:#fff; padding:2px 9px; border-radius:10px; font-size:12px; font-weight:700;">🛡 안정</span></td>
+            <td style="padding:8px 12px; color:var(--text-m);">차이 <strong>+0.5 이상</strong></td>
+            <td style="padding:8px 12px; color:var(--text-m);">학생이 컷보다 0.5등급 이상 유리</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray-1);">
+            <td style="padding:8px 12px;"><span style="background:var(--blue); color:#fff; padding:2px 9px; border-radius:10px; font-size:12px; font-weight:700;">✅ 적정</span></td>
+            <td style="padding:8px 12px; color:var(--text-m);">차이 <strong>+0.1 ~ +0.49</strong></td>
+            <td style="padding:8px 12px; color:var(--text-m);">컷에 근접, 합격 가능권</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray-1);">
+            <td style="padding:8px 12px;"><span style="background:var(--amber); color:#fff; padding:2px 9px; border-radius:10px; font-size:12px; font-weight:700;">🎯 도전(소신)</span></td>
+            <td style="padding:8px 12px; color:var(--text-m);">차이 <strong>±0.1 이내</strong></td>
+            <td style="padding:8px 12px; color:var(--text-m);">컷과 거의 동일, 소신 지원</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;"><span style="background:var(--red); color:#fff; padding:2px 9px; border-radius:10px; font-size:12px; font-weight:700;">🎯 도전(위험)</span></td>
+            <td style="padding:8px 12px; color:var(--text-m);">차이 <strong>−0.1 이하</strong></td>
+            <td style="padding:8px 12px; color:var(--text-m);">학생이 컷보다 불리, 도전 지원</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="warn-box" style="margin-top:14px;">
+        <div class="tip-label">⚠️ 자동 분류는 참고용입니다</div>
+        합격컷은 전년도 기준이며, 전형 방법·수능최저·경쟁률 변화에 따라 달라질 수 있습니다. 반드시 해당 대학 입학처 자료를 교차 확인하세요.
+      </div>
+    </div>
+  </div>
+
+  <!-- 프로그램 화면 예시 — 분류표가 이렇게 표시됩니다 -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">📊</div> 프로그램에서 이렇게 표시됩니다 — 기계공학 희망 학생 예시</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:14px;">
+        학생 내신 <strong>2.76등급</strong> 기준으로 대학·학과를 추가하면 70%컷이 자동 연동되어 아래와 같이 생성됩니다.
+      </p>
+      <div class="univ-grid">
+        <div class="univ-col col-try">
+          <div class="univ-col-hd">🎯 도전 <span style="font-size:10px;opacity:.85;">(컷이 유리한 방향)</span></div>
+          <div class="univ-col-body">
+            <div class="univ-item"><div class="univ-dot dot-try"></div>한양대<div class="univ-grade">컷 2.30</div></div>
+            <div class="univ-item"><div class="univ-dot dot-try"></div>중앙대<div class="univ-grade">컷 2.20</div></div>
+            <div class="univ-item"><div class="univ-dot dot-try"></div>성균관대<div class="univ-grade">컷 2.00</div></div>
+          </div>
+        </div>
+        <div class="univ-col col-fit">
+          <div class="univ-col-hd">✅ 적정 <span style="font-size:10px;opacity:.85;">(±0.5등급 내외)</span></div>
+          <div class="univ-col-body">
+            <div class="univ-item"><div class="univ-dot dot-fit"></div>경북대<div class="univ-grade">컷 2.90</div></div>
+            <div class="univ-item"><div class="univ-dot dot-fit"></div>부산대<div class="univ-grade">컷 3.10</div></div>
+            <div class="univ-item"><div class="univ-dot dot-fit"></div>아주대<div class="univ-grade">컷 3.40</div></div>
+          </div>
+        </div>
+        <div class="univ-col col-safe">
+          <div class="univ-col-hd">🛡 안정 <span style="font-size:10px;opacity:.85;">(0.5등급+ 유리)</span></div>
+          <div class="univ-col-body">
+            <div class="univ-item"><div class="univ-dot dot-safe"></div>인하대<div class="univ-grade">컷 3.60</div></div>
+            <div class="univ-item"><div class="univ-dot dot-safe"></div>창원대<div class="univ-grade">컷 4.00</div></div>
+            <div class="univ-item"><div class="univ-dot dot-safe"></div>경남대<div class="univ-grade">컷 4.50</div></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:11px; color:var(--text-s); margin-top:10px;">⚡ 표시는 자동 분류된 항목입니다. 목표 구분을 수동으로 바꾸면 수동값이 우선 적용됩니다.</p>
+      <div style="margin-top:16px; background:var(--gray-0); border:1px solid var(--gray-2); border-radius:10px; padding:14px 16px;">
+        <div style="font-size:12px; font-weight:700; color:var(--navy); margin-bottom:8px;">화면은 이렇게 읽습니다</div>
+        <ul style="font-size:13px; color:var(--text-m); line-height:1.8; padding-left:18px;">
+          <li><strong>상단 카드형 요약</strong>: 도전·적정·안정에 해당하는 학과/대학 수와 대표 후보가 먼저 표시됩니다.</li>
+          <li><strong>추가한 대학의 전체 학과 기준</strong>: 예를 들어 경북대를 추가하면 경북대 전체 학과가 도전·적정·안정으로 나뉩니다.</li>
+          <li><strong>추가한 학과 기준 전국 대학</strong>: 예를 들어 기계공학부를 추가하면 전국 기계 관련 학과가 있는 대학들이 도전·적정·안정으로 나뉩니다.</li>
+          <li><strong>전체 상세표 보기</strong>: 카드 아래에서 펼치면 70%컷, 차이값, 전형명까지 표로 확인할 수 있습니다.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────
+     STEP 4: 교과 정밀 판정 탭
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">4</div>
+    <div class="section-title">④ 교과 정밀 판정 탭 사용법</div>
+  </div>
+  <div class="section-desc">
+    상단 탭 「4 교과 정밀 판정」을 누릅니다. 대학별로 반영하는 교과 비중이 다르기 때문에, 실질 내신이 달라질 수 있습니다.
+  </div>
+
+  <div class="mock-screen">
+    <div class="mock-bar">
+      <div class="mock-dot" style="background:#ff5f57"></div>
+      <div class="mock-dot" style="background:#febc2e"></div>
+      <div class="mock-dot" style="background:#28c840"></div>
+      <div class="mock-url">https://사용자명.github.io/ipsi-main/index.html</div>
+    </div>
+    <div class="mock-content">
+      <div class="tab-bar">
+        <div class="tab-item"><span class="tab-num">1</span>학생 성적</div>
+        <div class="tab-item"><span class="tab-num">2</span>전국 입결 탐색</div>
+        <div class="tab-item active"><span class="tab-num">3</span>관심 학과 비교</div>
+        <div class="tab-item"><span class="tab-num">4</span>교과 정밀 판정</div>
+        <div class="tab-item"><span class="tab-num">5</span>상담 리포트</div>
+      </div>
+
+      <!-- 대학 선택 -->
+      <div style="background:#fff; border:1px solid var(--gray-2); border-radius:10px; padding:14px 16px; margin-bottom:14px;">
+        <div style="font-size:12px; color:var(--text-s); margin-bottom:8px; font-weight:600;">분석할 대학 선택</div>
+        <div class="filter-row">
+          <div class="filter-box active">🏫 경북대학교 — 기계공학부</div>
+          <div class="filter-box">전형: 교과우수자</div>
+          <div class="filter-box">수능최저: 2합6</div>
+        </div>
+      </div>
+
+      <!-- 판정 결과 -->
+      <div style="background:#fff; border:1px solid var(--gray-2); border-radius:10px; padding:16px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+          <div style="font-size:14px; font-weight:700; color:var(--navy);">반영 교과 환산 내신</div>
+          <div style="font-size:24px; font-weight:700; color:var(--blue);">2.76등급</div>
+        </div>
+        <div style="font-size:12px; color:var(--text-s); margin-bottom:10px;">경북대 반영 비율: 국어 20% / 수학 30% / 영어 20% / 과학 30%</div>
+        <div style="background:var(--gray-0); border-radius:8px; padding:12px;">
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; text-align:center;">
+            <div><div style="font-size:11px;color:var(--text-s);">국어 (20%)</div><div style="font-size:16px;font-weight:700;color:var(--navy);">3.0</div></div>
+            <div><div style="font-size:11px;color:var(--text-s);">수학 (30%)</div><div style="font-size:16px;font-weight:700;color:var(--blue);">2.2</div></div>
+            <div><div style="font-size:11px;color:var(--text-s);">영어 (20%)</div><div style="font-size:16px;font-weight:700;color:var(--blue);">2.3</div></div>
+            <div><div style="font-size:11px;color:var(--text-s);">과학 (30%)</div><div style="font-size:16px;font-weight:700;color:var(--text);">3.1</div></div>
+          </div>
+        </div>
+        <div style="margin-top:12px; display:flex; align-items:center; gap:8px;">
+          <div style="height:8px; flex:1; background:var(--gray-1); border-radius:4px; overflow:hidden;">
+            <div style="height:100%; width:62%; background:var(--green); border-radius:4px;"></div>
+          </div>
+          <div style="font-size:12px; color:var(--green); font-weight:700;">합격 가능성 ●●●○○</div>
+        </div>
+      </div>
+
+      <div style="background:var(--sky); border:1px solid var(--sky-mid); border-radius:8px; padding:12px 14px; font-size:13px; color:var(--navy);">
+        💡 <strong>경북대 교과우수자</strong>는 사회 과목을 반영하지 않아, 전체 내신보다 <strong>0.4등급 유리</strong>합니다.
+      </div>
+    </div>
+  </div>
+
+  <div class="tip-box">
+    <div class="tip-label">💡 초보 교사 팁 — 실질 내신이 왜 다른가?</div>
+    대학마다 반영하는 과목이 다릅니다. 이 학생은 <strong>수학·영어가 강하고 사회가 약하기 때문에</strong>, 사회를 반영하지 않는 대학일수록 실질 내신이 높아집니다. 교과 정밀 판정 탭에서 대학을 선택하면 자동으로 환산해 줍니다.
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────
+     STEP 5: 상담 진행 — 교사가 직접 해야 하는 부분
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">5</div>
+    <div class="section-title">⑤ 상담 진행 — 교사가 직접 해야 하는 부분</div>
+  </div>
+  <div class="section-desc">
+    프로그램은 데이터를 보여주지만, <strong>해석하고 맥락을 잡는 것은 교사의 몫</strong>입니다.<br>
+    이 단계에서 교사가 직접 판단해야 할 기준과, 각 상황에서 활용할 수 있는 멘트 가이드라인을 제공합니다.
+  </div>
+
+  <!-- ── 1. 상담 전 교사 확인 사항 ── -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">🔍</div> 상담 시작 전 — 교사가 미리 파악해야 할 것</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:14px;">
+        프로그램을 켜기 전에 학생 생기부를 읽고 아래 항목을 머릿속에 정리해두세요. 상담의 질이 달라집니다.
+      </p>
+      <ul class="checklist">
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>강점 교과 3개</strong> — 학생의 핵심 과목과 그 등급. 희망 전공과 연결되는 과목인지 확인</div>
+        </li>
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>약점 교과와 영향 범위</strong> — 낮은 과목이 전형에서 반영되는지 여부. 반영 안 되는 대학이 있는지 미리 파악</div>
+        </li>
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>비교과 활동 키워드 2~3개</strong> — 생기부 세특·진로활동에서 구체적인 활동명 메모 (종합전형 연결 시 사용)</div>
+        </li>
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>교과 vs 종합 유리성 판단</strong> — 내신이 안정적이면 교과, 비교과가 풍부하면 종합 병행 권장 여부 미리 결론 내기</div>
+        </li>
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>수능 최저 기준 확인</strong> — 목표 대학의 수능 최저가 현실적인지 판단 (학생의 모의고사 성적과 비교)</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── 2. 전형 선택 판단 기준 ── -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">⚖️</div> 판단 기준 ① — 교과전형 vs 학생부종합전형</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:14px;">
+        두 전형 중 어느 쪽을 주력으로 할지, 아래 기준으로 판단하세요. 이 판단을 먼저 내린 뒤 학생에게 설명해야 설득력이 생깁니다.
+      </p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
+        <div style="background:var(--sky); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--blue); margin-bottom:8px;">📘 교과전형이 유리한 경우</div>
+          <ul style="font-size:13px; color:var(--navy); list-style:none; display:flex; flex-direction:column; gap:6px;">
+            <li>· 전과목 내신이 고르게 안정적 (편차 1등급 이내)</li>
+            <li>· 비교과 활동이 상대적으로 단조롭거나 짧음</li>
+            <li>· 수능 최저 충족이 가능한 수준</li>
+            <li>· 지역인재 가산점 적용 대학 지원 시</li>
+          </ul>
+        </div>
+        <div style="background:var(--green-light); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:12px; font-weight:700; color:var(--green); margin-bottom:8px;">📗 종합전형 병행이 유리한 경우</div>
+          <ul style="font-size:13px; color:var(--navy); list-style:none; display:flex; flex-direction:column; gap:6px;">
+            <li>· 특정 과목 약점이 있지만 관련 전공 교과는 강함</li>
+            <li>· 세특·진로활동에 전공 연계 탐구가 구체적으로 기재됨</li>
+            <li>· 수상·소논문·프로젝트 등 자기주도 활동이 풍부</li>
+            <li>· 교과 내신 산출 기준 변동으로 불이익이 있는 경우</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tip-box" style="margin-bottom:0;">
+        <div class="tip-label">💡 멘트 가이드라인</div>
+        판단을 내렸으면 학생에게 <strong>"네가 더 유리한 전형이 있어"</strong>라고 먼저 말문을 여세요.<br>
+        이유를 바로 설명하기 전에 학생의 생기부를 같이 화면에 띄워두면 구체적인 근거로 이야기할 수 있습니다.<br>
+        <strong>두 전형을 병행하는 것이 대부분의 경우 유리하다</strong>는 점도 전달해 주세요.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 3. 도전·적정·안정 기준 설명 판단 ── -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">🎯</div> 판단 기준 ② — 도전·적정·안정을 학생에게 설명하는 법</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:14px;">
+        프로그램의 자동 분류는 <strong>숫자 기준</strong>이지만, 학생에게 전달할 때는 <strong>의미 중심</strong>으로 바꿔 말해야 합니다.
+      </p>
+      <table style="width:100%; font-size:13px; border-collapse:collapse; margin-bottom:16px;">
+        <thead>
+          <tr style="background:var(--navy); color:#fff;">
+            <th style="padding:8px 12px; text-align:left; width:18%;">분류</th>
+            <th style="padding:8px 12px; text-align:left; width:30%;">교사가 판단할 내용</th>
+            <th style="padding:8px 12px; text-align:left;">학생에게 전달할 말</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--gray-1);">
+            <td style="padding:8px 12px;"><span class="meta-tag tag-try">🎯 도전</span></td>
+            <td style="padding:8px 12px; color:var(--text-m);">합격컷보다 불리하지만 가능성은 열려있는 학교. 수능 최저 충족 여부, 경쟁률 변동 확인 필요</td>
+            <td style="padding:8px 12px; color:var(--text-m);">"지금 성적이 컷보다 살짝 낮지만 충분히 도전할 수 있어. 대신 수능 준비가 중요해."</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--gray-1);">
+            <td style="padding:8px 12px;"><span class="meta-tag tag-fit">✅ 적정</span></td>
+            <td style="padding:8px 12px; color:var(--text-m);">현재 성적과 컷이 비슷한 수준. 변수가 적고 안정적으로 지원 가능한 주력 학교군</td>
+            <td style="padding:8px 12px; color:var(--text-m);">"지금 성적으로 충분히 가능한 곳이야. 이 학교들을 주력으로 준비하면 돼."</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;"><span class="meta-tag tag-safe">🛡 안정</span></td>
+            <td style="padding:8px 12px; color:var(--text-m);">내신이 컷보다 0.5등급 이상 유리. 확실한 합격 안전망. 반드시 1~2개는 포함시킬 것</td>
+            <td style="padding:8px 12px; color:var(--text-m);">"여기는 지금 성적이면 거의 확실해. 안전망으로 꼭 한두 곳 넣어두자."</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="warn-box" style="margin-bottom:0;">
+        <div class="tip-label">⚠️ 교사가 하지 말아야 할 것</div>
+        "여기는 붙을 거야" / "여기는 힘들어" 같은 <strong>단정적 표현은 금지</strong>합니다.<br>
+        입시 결과는 경쟁률·수능최저·추가합격 등 변수가 많으므로 항상 "전년도 기준으로는~" 이라고 전제하세요.<br>
+        학생이 원하는 학교를 먼저 들어보고 판단을 제시하는 순서를 지키세요.
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 4. 약점 전달 방법 ── -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">🗣️</div> 판단 기준 ③ — 약점을 상처 없이 전달하는 법</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:16px;">
+        낮은 성적이나 불리한 조건을 전달할 때는 <strong>강점을 먼저</strong>, 약점은 <strong>해결책과 함께</strong> 말하세요.
+      </p>
+
+      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+        <!-- 패턴 1 -->
+        <div style="background:var(--gray-0); border:1px solid var(--gray-2); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:var(--blue); margin-bottom:8px; text-transform:uppercase; letter-spacing:.05em;">패턴 A — 약점을 전형 선택으로 상쇄</div>
+          <p style="font-size:13px; color:var(--text-m); line-height:1.8;">
+            <span style="background:var(--red-light); color:var(--red); padding:1px 6px; border-radius:4px; font-size:11px; font-weight:700;">피해야 할 표현</span><br>
+            "사회가 7등급이라서 내신이 많이 깎여서 교과전형은 어려워."<br><br>
+            <span style="background:var(--green-light); color:var(--green); padding:1px 6px; border-radius:4px; font-size:11px; font-weight:700;">권장 표현</span><br>
+            "수학이랑 영어는 확실히 강점이야. 그리고 기계공학과 교과전형에서는 수학·과학·영어를 주로 반영하거든. 사회는 반영 안 하는 대학이 꽤 있어서 실제 반영 내신은 전체 평균보다 훨씬 좋게 나와."
+          </p>
+        </div>
+        <!-- 패턴 2 -->
+        <div style="background:var(--gray-0); border:1px solid var(--gray-2); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:var(--blue); margin-bottom:8px; text-transform:uppercase; letter-spacing:.05em;">패턴 B — 약점을 다른 강점으로 보완</div>
+          <p style="font-size:13px; color:var(--text-m); line-height:1.8;">
+            <span style="background:var(--red-light); color:var(--red); padding:1px 6px; border-radius:4px; font-size:11px; font-weight:700;">피해야 할 표현</span><br>
+            "화학이 4등급이라서 이공계 가기엔 좀 부족한 편이야."<br><br>
+            <span style="background:var(--green-light); color:var(--green); padding:1px 6px; border-radius:4px; font-size:11px; font-weight:700;">권장 표현</span><br>
+            "물리랑 지구과학은 진짜 잘했네. 기계공학은 물리가 훨씬 중요한 과목이거든. 화학은 일부 대학에서 비중을 낮게 보기도 해서 대학별로 확인해볼 필요가 있어."
+          </p>
+        </div>
+        <!-- 패턴 3 -->
+        <div style="background:var(--gray-0); border:1px solid var(--gray-2); border-radius:10px; padding:14px 16px;">
+          <div style="font-size:11px; font-weight:700; color:var(--blue); margin-bottom:8px; text-transform:uppercase; letter-spacing:.05em;">패턴 C — 현실과 희망 사이의 균형 잡기</div>
+          <p style="font-size:13px; color:var(--text-m); line-height:1.8;">
+            <span style="background:var(--red-light); color:var(--red); padding:1px 6px; border-radius:4px; font-size:11px; font-weight:700;">피해야 할 표현</span><br>
+            "SKY는 현실적으로 너무 어렵고, 경북대 정도가 현실적인 목표야."<br><br>
+            <span style="background:var(--green-light); color:var(--green); padding:1px 6px; border-radius:4px; font-size:11px; font-weight:700;">권장 표현</span><br>
+            "경북대·부산대가 지금 성적으로 주력이 될 수 있어. 한양대·중앙대는 도전해볼 만한 목표로 같이 준비하면 어떨까? 수능 최저만 맞추면 의외로 가능한 경우도 있거든."
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 5. 상담 마무리 판단 ── -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">✅</div> 상담 마무리 — 교사가 정리해줘야 할 것</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:14px;">
+        상담이 끝나기 전에 아래 내용을 학생에게 구두로 정리해주세요. 프로그램 5번 탭 「상담 리포트」를 출력해 전달해도 됩니다.
+      </p>
+      <ul class="checklist">
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>주력 대학 1~2개 확정</strong> — "적정" 범위에서 학생이 가장 가고 싶은 곳</div>
+        </li>
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>안전 대학 1개 이상 포함</strong> — 학생이 심리적으로 안정감을 가질 수 있도록</div>
+        </li>
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>전형 전략 요약</strong> — 교과/종합/수능 중 어느 비중을 높일 것인지 한 문장으로 정리</div>
+        </li>
+        <li>
+          <div class="check-icon">✓</div>
+          <div><strong>다음 상담 일정 또는 숙제</strong> — "수능 최저 확인해오기" / "관심 학과 추가 조사" 등 구체적 과제 부여</div>
+        </li>
+      </ul>
+      <div class="good-box" style="margin-top:14px; margin-bottom:0;">
+        <div class="tip-label">✅ 초보 교사에게 — 상담의 핵심</div>
+        프로그램은 숫자를 보여줄 뿐입니다. <strong>"이 학생이 어떤 사람인가"</strong>를 이해하고 있는 교사만이 숫자에 의미를 붙여줄 수 있습니다.<br>
+        모든 숫자에 "왜 이렇게 나왔는지"를 한 마디씩 덧붙여주는 것이 진짜 상담입니다.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── 6. 상담 리포트와 AI 프롬프트 사용 ── -->
+  <div class="card">
+    <div class="card-hd"><div class="icon">🤖</div> 상담 리포트 탭 — AI 프롬프트 복사 사용법</div>
+    <div class="card-body">
+      <p style="font-size:13px; color:var(--text-m); margin-bottom:14px;">
+        「5 상담 리포트」 탭에서는 현재 학생 성적, 관심 대학·학과, 교사 메모를 바탕으로 상담 리포트를 만들고 <strong>AI 프롬프트</strong>를 복사할 수 있습니다.
+      </p>
+      <div class="flow" style="margin-bottom:18px;">
+        <div class="flow-step done">① 학생 성적 설정</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step done">② 관심 학과 추가</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step now">③ 상담 리포트 탭</div>
+        <div class="flow-arrow">›</div>
+        <div class="flow-step">④ AI 프롬프트 복사</div>
+      </div>
+      <div style="background:var(--gray-0); border:1px solid var(--gray-2); border-radius:10px; padding:14px 16px; margin-bottom:14px;">
+        <div style="font-size:12px; font-weight:700; color:var(--navy); margin-bottom:8px;">프롬프트에 자동으로 포함되는 내용</div>
+        <ul style="font-size:13px; color:var(--text-m); line-height:1.8; padding-left:18px;">
+          <li>학생의 내신 9등급 환산 평균과 내신 기반 상위 누적 백분위 추정값</li>
+          <li>관심 대학·학과 목록과 학생부교과 70%컷, 학생 내신과의 차이값</li>
+          <li>추가한 대학의 전체 학과 기준 <strong>도전·적정·안정 요약</strong></li>
+          <li>추가한 학과 기준 전국 대학 <strong>도전·적정·안정 요약</strong></li>
+          <li>수능위주·학생부교과·학생부종합을 섞어 판단하지 말라는 주의 문구</li>
+        </ul>
+      </div>
+      <div class="tip-box" style="margin-bottom:0;">
+        <div class="tip-label">💡 사용 팁</div>
+        AI 프롬프트는 상담 결과를 대신 결정하게 하는 용도가 아니라, <strong>상담 문장 정리·위험요소 점검·다음 상담 과제 정리</strong>에 활용하는 것이 좋습니다. 특히 도전·적정·안정은 “합격 예측”이 아니라 <strong>전년도 70%컷 기준 상담 참고 분류</strong>라고 표현하도록 프롬프트에 반영되어 있습니다.
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ──────────────────────────────────────
+     STEP 6: FAQ
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">6</div>
+    <div class="section-title">자주 묻는 질문 (초보 교사용)</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">
+      <div class="faq-qmark">Q</div>
+      온라인 주소로 접속했는데 화면이 예전 버전처럼 보여요.
+    </div>
+    <div class="faq-a">
+      브라우저 캐시에 이전 파일이 남아 있을 수 있습니다. <strong>Ctrl+F5</strong>로 강력 새로고침을 하거나, 주소 뒤에 <code>?v=날짜</code>를 붙여 다시 접속하세요. 학교 공용 PC에서는 브라우저 캐시 삭제 후 재접속하면 됩니다.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">
+      <div class="faq-qmark">Q</div>
+      성적을 엑셀에 어떤 형식으로 입력해야 하나요?
+    </div>
+    <div class="faq-a">
+      학교에서 사용하는 나이스(NEIS) 성적 출력 형식을 그대로 쓰거나, 학번 / 학년 / 학기 / 과목명 / 원점수 / 과목평균 / 등급 열이 있으면 됩니다. 프로그램 내 「샘플 파일 다운로드」 버튼을 눌러 양식을 받아 채우는 게 가장 빠릅니다.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">
+      <div class="faq-qmark">Q</div>
+      입결 데이터는 몇 년도 기준인가요?
+    </div>
+    <div class="faq-a">
+      포함된 파일(2025대학별전형결과.html)은 2025학년도 입시 결과 기준입니다. 매년 업데이트된 파일로 교체하시면 됩니다. 파일명을 바꾸지 않거나, index.html 내 KN_CHART_FILE 변수에 새 파일명을 적어주시면 됩니다.
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-q">
+      <div class="faq-qmark">Q</div>
+      학생 이름이 노출될까봐 걱정돼요.
+    </div>
+    <div class="faq-a">
+      이 프로그램은 인터넷에 연결되지 않고 <strong>로컬 컴퓨터에서만 실행</strong>됩니다. 외부로 데이터가 전송되지 않으므로 개인정보 유출 걱정은 없습니다. 단, 화면을 캡처해서 공유하거나 파일을 외부에 보낼 때는 학생 이름을 직접 지워주세요.
+    </div>
+  </div>
+</div>
+
+<!-- ──────────────────────────────────────
+     STEP 7: 상담 전 체크리스트
+────────────────────────────────────────── -->
+<div class="section">
+  <div class="section-label">
+    <div class="step-num">7</div>
+    <div class="section-title">상담 전 준비 체크리스트</div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <ul class="checklist">
+        <li><div class="check-icon">✓</div> 학생 성적 엑셀 파일 준비 완료</li>
+        <li><div class="check-icon">✓</div> GitHub Pages 온라인 주소 접속 확인</li>
+        <li><div class="check-icon">✓</div> 학생 성적 탭에서 9등급 환산 평균 입력 및 「학생 성적 적용」 확인</li>
+        <li><div class="check-icon">✓</div> 전국 입결 탐색 탭에서 희망 대학·학과 자료 확인</li>
+        <li><div class="check-icon">✓</div> 관심 학과 비교 탭에서 도전·적정·안정 분류 확인 → 교과 정밀 판정 탭에서 최종 후보 환산 내신 확인</li>
+        <li><div class="check-icon">✓</div> 생기부 읽어두기 (강점 키워드 3~5개 메모)</li>
+        <li><div class="check-icon">✓</div> 관심 학과 비교 탭에서 도전·적정·안정 카드형 요약 확인</li>
+        <li><div class="check-icon">✓</div> 해당 대학의 수능 최저 기준 확인</li>
+        <li><div class="check-icon">✓</div> 상담 리포트 출력 및 AI 프롬프트 복사 테스트</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 마무리 요약 -->
+  <div class="summary-strip">
+    <h3>📌 이 학생(기계공학 희망) 상담 핵심 요약</h3>
+    <ul>
+      <li>수학 2등급, 영어 2등급 — 이공계 핵심 교과 강점, 자신감 있게 제시</li>
+      <li>사회 약점은 「수학·과학 중심 반영 대학」 선택으로 상쇄 가능</li>
+      <li>경북대·부산대 기계공학부가 현실적 적정 목표 (교과 전형)</li>
+      <li>아두이노·압전소자·AI 탐구 활동 → 학생부종합 전형도 병행 권장</li>
+      <li>프로그램 4번 탭에서 대학별 실질 내신을 직접 보여주며 설득력 있게 상담</li>
+      <li>3학년 수능 최저 전략은 별도 상담으로 분리 진행</li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- /.wrap -->
+</body>
+</html>
