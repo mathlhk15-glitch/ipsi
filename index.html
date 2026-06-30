@@ -6,7 +6,7 @@
   ================================================================
   역할: 학생 성적 입력, 전국 입결 탐색, 교과 정밀 판정,
         관심 학과 비교, 상담 리포트 통합 Navigator
-  배포 파일 구조: index.html / ipsi.html / chart2025.html
+  배포 파일 구조: index.html / ipsi.html / chart2025.html / daedong.html
   작성일: 2026-05-24
   ================================================================
 -->
@@ -260,6 +260,105 @@ html, body {
 /* ================================================================
    [KN-CSS-07] 반응형 탭바 (모바일)
    ================================================================ */
+/* ================================================================
+   [STEP-GUIDE-CSS-01] 단계별 상담 진행 가이드
+   ================================================================ */
+#ipsi-nav-step-guide {
+  max-width: 1200px;
+  margin: 0 auto 20px;
+  padding: 0 20px;
+}
+.ipsi-nav-step-guide-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--kn-text, #1e2533);
+  margin: 0 0 4px;
+  letter-spacing: -0.01em;
+}
+.ipsi-nav-step-guide-desc {
+  font-size: 0.82rem;
+  color: #5a6480;
+  margin: 0 0 10px;
+  line-height: 1.5;
+}
+.ipsi-nav-step-guide-notice {
+  font-size: 0.82rem;
+  margin: 0 0 10px;
+  padding: 7px 12px;
+  border-radius: 7px;
+  line-height: 1.5;
+}
+.ipsi-nav-step-guide-notice--warn {
+  background: #fff8e1;
+  color: #7a5c00;
+  border-left: 3px solid #f9c23c;
+}
+.ipsi-nav-step-guide-notice--ok {
+  background: #e8f5e9;
+  color: #1b5e20;
+  border-left: 3px solid #4caf50;
+}
+.ipsi-nav-step-list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+}
+.ipsi-nav-step-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 10px 12px;
+  background: #fff;
+  border: 1.5px solid #dce3f0;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  min-height: 64px;
+}
+.ipsi-nav-step-btn:hover {
+  border-color: #4b80c8;
+  box-shadow: 0 2px 8px rgba(75,128,200,0.13);
+  background: #f4f8ff;
+}
+.ipsi-nav-step-btn:active { transform: scale(0.98); }
+.ipsi-nav-step-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #fff;
+  background: #4b80c8;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ipsi-nav-step-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #1e2533;
+  line-height: 1.3;
+}
+.ipsi-nav-step-hint {
+  font-size: 0.72rem;
+  color: #7a8aad;
+  line-height: 1.3;
+}
+
+@media (min-width: 681px) and (max-width: 899px) {
+  .ipsi-nav-step-list { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 680px) {
+  #ipsi-nav-step-guide { padding: 0 12px; }
+  .ipsi-nav-step-list { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .ipsi-nav-step-list { grid-template-columns: 1fr; }
+}
+
 @media (max-width: 599px) {
   .kn-tab {
     padding: 7px 10px;
@@ -2226,52 +2325,52 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
           <span class="ipsi-nav-badge">상담 리포트</span>
         </div>
 
-        <!-- 상담 흐름 단계 바 -->
-        <div class="ipsi-nav-flow" role="navigation" aria-label="상담 진행 단계">
-          <div class="ipsi-nav-flow-step">
-            <div class="ipsi-nav-flow-step-inner ipsi-nav-flow-step--active"
-                 onclick="knSwitchTab('student')" title="학생 성적 입력">
-              <span class="ipsi-nav-flow-num">1</span>
-              학생 선택
-            </div>
-          </div>
-          <span class="ipsi-nav-flow-arrow">›</span>
-          <div class="ipsi-nav-flow-step">
-            <div class="ipsi-nav-flow-step-inner"
-                 onclick="knSwitchTab('student')" title="성적 확인">
-              <span class="ipsi-nav-flow-num">2</span>
-              성적 확인
-            </div>
-          </div>
-          <span class="ipsi-nav-flow-arrow">›</span>
-          <div class="ipsi-nav-flow-step">
-            <div class="ipsi-nav-flow-step-inner"
-                 onclick="knSwitchTab('chart')" title="전국 입결 탐색">
-              <span class="ipsi-nav-flow-num">3</span>
-              대학 탐색
-            </div>
-          </div>
-          <span class="ipsi-nav-flow-arrow">›</span>
-          <div class="ipsi-nav-flow-step">
-            <div class="ipsi-nav-flow-step-inner"
-                 onclick="knSwitchTab('watchlist')" title="관심 학과 비교">
-              <span class="ipsi-nav-flow-num">4</span>
-              관심 비교
-            </div>
-          </div>
-          <span class="ipsi-nav-flow-arrow">›</span>
-          <div class="ipsi-nav-flow-step">
-            <div class="ipsi-nav-flow-step-inner"
-                 onclick="knSwitchTab('report')" title="상담 리포트 작성">
-              <span class="ipsi-nav-flow-num">5</span>
-              상담 정리
-            </div>
-          </div>
-        </div>
-
         </div><!-- /.ipsi-nav-hero-inner -->
 
       </div><!-- /#ipsi-nav-hero -->
+
+      <!-- ================================================================
+           [STEP-GUIDE-HTML-01] 단계별 상담 진행 가이드
+           ================================================================ -->
+      <div id="ipsi-nav-step-guide">
+        <div class="ipsi-nav-step-guide-title">상담 진행 순서</div>
+        <div class="ipsi-nav-step-guide-desc">처음 사용하는 경우 아래 순서대로 진행하면 됩니다. 필요한 경우 상단 탭이나 보조 도구를 바로 사용해도 됩니다.</div>
+        <div id="ipsi-nav-step-notice" class="ipsi-nav-step-guide-notice ipsi-nav-step-guide-notice--warn">
+          먼저 학생 성적을 입력하면 이후 단계의 판정과 리포트가 더 정확해집니다.
+        </div>
+        <div class="ipsi-nav-step-list">
+          <button type="button" class="ipsi-nav-step-btn" onclick="knSwitchTab('student');setTimeout(function(){var el=document.getElementById('kn-inp-name');if(el){el.focus();el.scrollIntoView({behavior:'smooth',block:'center'});}},50);">
+            <span class="ipsi-nav-step-num">1</span>
+            <span class="ipsi-nav-step-label">학생 성적 입력</span>
+            <span class="ipsi-nav-step-hint">이름·내신 입력</span>
+          </button>
+          <button type="button" class="ipsi-nav-step-btn" onclick="knSwitchTab('chart');">
+            <span class="ipsi-nav-step-num">2</span>
+            <span class="ipsi-nav-step-label">전국 입결 탐색</span>
+            <span class="ipsi-nav-step-hint">3개년 입결 넓게 보기</span>
+          </button>
+          <button type="button" class="ipsi-nav-step-btn" onclick="knSwitchTab('ipsi-detail');">
+            <span class="ipsi-nav-step-num">3</span>
+            <span class="ipsi-nav-step-label">교과 정밀 판정</span>
+            <span class="ipsi-nav-step-hint">안정·가능·소신·위험 확인</span>
+          </button>
+          <button type="button" class="ipsi-nav-step-btn" onclick="window.open('daedong.html','_blank','noopener');">
+            <span class="ipsi-nav-step-num">4</span>
+            <span class="ipsi-nav-step-label">대동여지도 전형정보</span>
+            <span class="ipsi-nav-step-hint">전형방법·수능최저 확인</span>
+          </button>
+          <button type="button" class="ipsi-nav-step-btn" onclick="knSwitchTab('watchlist');">
+            <span class="ipsi-nav-step-num">5</span>
+            <span class="ipsi-nav-step-label">관심 학과 비교</span>
+            <span class="ipsi-nav-step-hint">수시 6장 후보 정리</span>
+          </button>
+          <button type="button" class="ipsi-nav-step-btn" onclick="knSwitchTab('report');">
+            <span class="ipsi-nav-step-num">6</span>
+            <span class="ipsi-nav-step-label">상담 리포트</span>
+            <span class="ipsi-nav-step-hint">상담 내용 출력·복사</span>
+          </button>
+        </div>
+      </div><!-- /#ipsi-nav-step-guide -->
 
       <!-- ================================================================
            [IPSI-NAV-HTML-02] 주요 도구 카드 그리드
@@ -2298,12 +2397,13 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
         <div class="ipsi-nav-card">
           <div class="ipsi-nav-card-icon">🔍</div>
           <div>
-            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--blue">STEP 2–3</span>
+            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--blue">STEP 2–4</span>
             <div class="ipsi-nav-card-title">대학·학과 탐색</div>
           </div>
           <div class="ipsi-nav-card-desc">
             <strong style="color:var(--kn-primary);">전국 입결 탐색:</strong> 전체 대학·학과의 3개년 입결을 넓게 확인합니다.<br>
-            <strong style="color:var(--kn-primary);">교과 정밀 판정:</strong> 학생 성적 기준으로 안정·가능·소신·위험을 세부 판정합니다.
+            <strong style="color:var(--kn-primary);">교과 정밀 판정:</strong> 학생 성적 기준으로 안정·가능·소신·위험을 세부 판정합니다.<br>
+            전형방법·수능최저는 대동여지도 전형정보에서 별도로 확인합니다.
           </div>
           <div class="ipsi-nav-card-actions">
             <button class="ipsi-nav-primary-btn ipsi-nav-primary-btn--blue"
@@ -2314,6 +2414,9 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
                     onclick="knSwitchTab('ipsi-detail')">
               교과 정밀 판정
             </button>
+            <a class="ipsi-nav-secondary-btn" href="daedong.html" target="_blank" rel="noopener">
+              대동여지도 전형정보
+            </a>
           </div>
         </div>
 
@@ -2321,7 +2424,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
         <div class="ipsi-nav-card">
           <div class="ipsi-nav-card-icon">⭐</div>
           <div>
-            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--gold">STEP 4</span>
+            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--gold">STEP 5</span>
             <div class="ipsi-nav-card-title">관심 후보 비교</div>
           </div>
           <div class="ipsi-nav-card-desc">
@@ -2337,7 +2440,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
         <div class="ipsi-nav-card">
           <div class="ipsi-nav-card-icon">📄</div>
           <div>
-            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--green">STEP 5</span>
+            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--green">STEP 6</span>
             <div class="ipsi-nav-card-title">상담 리포트</div>
           </div>
           <div class="ipsi-nav-card-desc">
@@ -2364,6 +2467,10 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
           <a class="ipsi-nav-secondary-btn" href="ipsi.html" target="_blank"
              rel="noopener">
             세부 입결 탐색기 (별창)
+          </a>
+          <a class="ipsi-nav-secondary-btn" href="daedong.html" target="_blank"
+             rel="noopener">
+            대동여지도 전형정보 열기
           </a>
         </div>
       </div>
@@ -3149,11 +3256,36 @@ window.addEventListener('kyeongil:student-updated', function(e) {
   if (typeof knRenderClassificationTable === 'function') {
     knRenderClassificationTable();
   }
+  // 단계별 가이드 안내 문구 갱신
+  if (typeof knRenderStepGuide === 'function') {
+    knRenderStepGuide();
+  }
   console.log('[KN] 학생 정보 갱신됨:', e.detail);
 });
 
 // 초기 실행 (비어 있으므로 안내 문구 표시)
 knUpdateStudentBar();
+
+/*
+ * knRenderStepGuide()
+ * 단계별 상담 진행 가이드 안내 문구를 APP_STATE.student 기반으로 갱신한다.
+ */
+function knRenderStepGuide() {
+  var el = document.getElementById('ipsi-nav-step-notice');
+  if (!el) return;
+  var s = window.APP_STATE && window.APP_STATE.student;
+  var name = s && s.name && s.name.trim();
+  if (name) {
+    el.className = 'ipsi-nav-step-guide-notice ipsi-nav-step-guide-notice--ok';
+    el.textContent = '현재 학생: ' + name + ' — 다음 단계로 전국 입결 탐색을 진행하세요.';
+  } else {
+    el.className = 'ipsi-nav-step-guide-notice ipsi-nav-step-guide-notice--warn';
+    el.textContent = '먼저 학생 성적을 입력하면 이후 단계의 판정과 리포트가 더 정확해집니다.';
+  }
+}
+window.knRenderStepGuide = knRenderStepGuide;
+// 초기 실행
+knRenderStepGuide();
 </script>
 
 
@@ -5688,7 +5820,8 @@ window.knBridgeStudentToIpsi = knBridgeStudentToIpsi;
   배포 폴더 구조 (최종)
   ├── index.html          ← 메인 Navigator (이 파일)
   ├── ipsi.html           ← 교과 정밀 판정 탐색기
-  └── chart2025.html      ← 전국 입결 탐색기
+  ├── chart2025.html      ← 전국 입결 탐색기
+  └── daedong.html        ← 대동여지도 전형정보 탐색기
   ================================================================
 
   최종 배포 메모
@@ -5697,9 +5830,13 @@ window.knBridgeStudentToIpsi = knBridgeStudentToIpsi;
   - index.html
   - ipsi.html
   - chart2025.html
+  - daedong.html
+
+  daedong.html은 대동여지도 전형정보 확인용 별도 파일이다.
+  현재 단계에서는 index.html에 병합하지 않고 새 창으로 연결한다.
 
   실행 권장 방식:
-  1. 세 파일을 같은 폴더에 둔다.
+  1. 네 파일을 같은 폴더에 둔다.
   2. VS Code Live Server 또는 python -m http.server 8080으로 실행한다.
   3. 브라우저에서 http://localhost:8080/index.html을 연다.
 
