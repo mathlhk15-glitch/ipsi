@@ -1,28 +1,20 @@
 <!DOCTYPE html>
 <!--
   ================================================================
-  경일 진학상담 Navigator v1 — STEP04: 전국 입결 탭 통합
+  경일 진학상담 Navigator
+  최종 배포본
   ================================================================
-  단계: STEP10 (최종)
-  목적: 최근 상담 학생 히스토리 + 관심학과 Excel 내보내기 + 최종 정리
+  역할: 학생 성적 입력, 전국 입결 탐색, 교과 정밀 판정,
+        관심 학과 비교, 상담 리포트 통합 Navigator
+  배포 파일 구조: index.html / ipsi.html / chart2025.html
   작성일: 2026-05-24
-  변경 내역 (STEP09 → STEP10):
-    [STEP10-CSS-01] 히스토리 칩 + 내보내기 버튼 스타일
-    [STEP10-HTML-01] 학생 성적 탭 — 히스토리 칩 영역 추가
-    [STEP10-HTML-02] 관심학과 탭 — Excel 내보내기 버튼 추가
-    [STEP10-JS-01]  knPushStudentHistory() — 히스토리 저장 (최대 10명)
-    [STEP10-JS-02]  knRenderHistory() — 히스토리 칩 렌더링
-    [STEP10-JS-03]  knLoadFromHistory() — 히스토리 → 폼 자동 입력
-    [STEP10-JS-04]  knExportWatchlistExcel() — 관심학과 Excel 내보내기
-    [STEP10-JS-05]  console.log 정리 (핵심만 유지)
-    [STEP10-JS-06]  자가 진단 STEP10으로 갱신
   ================================================================
 -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>경일 진학상담 Navigator v1</title>
+<title>경일 진학상담 Navigator</title>
 <!-- SheetJS: ipsi 파일과 동일 버전 사용 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
@@ -36,16 +28,16 @@
 
 :root {
   /* 통합 탭 전용 변수 — kn- 접두어 사용 */
-  --kn-bg: #f0ece3;
-  --kn-surface: #e8e4db;
-  --kn-border: rgba(201,164,82,0.35);
-  --kn-primary: #1e3a5f;
-  --kn-accent: #c9a452;
-  --kn-text: #1e2a3a;
-  --kn-text-m: #5a4a3a;
-  --kn-text-l: #8a7a6a;
+  --kn-bg: #f0f4f9;
+  --kn-surface: #e3eaf4;
+  --kn-border: rgba(59,130,200,0.18);
+  --kn-primary: #1a3f72;
+  --kn-accent: #2a7de1;
+  --kn-text: #1a2840;
+  --kn-text-m: #4a5a72;
+  --kn-text-l: #7a8fa8;
   --kn-shd-l: #ffffff;
-  --kn-shd-d: #c8bcaa;
+  --kn-shd-d: #c5d0df;
   --kn-tab-h: 52px;        /* 탭바 높이 */
   --kn-header-h: 48px;     /* 상단 헤더 높이 */
   --kn-neu-flat: 6px 6px 12px var(--kn-shd-d), -6px -6px 12px var(--kn-shd-l);
@@ -129,7 +121,7 @@ html, body {
 
 .kn-tab:hover {
   color: var(--kn-primary);
-  background: #ede9e0;
+  background: #dde6f2;
 }
 
 .kn-tab.kn-tab--active {
@@ -301,7 +293,7 @@ html, body {
   width: 100%;
   height: 100%;
   border: none;
-  background: #f0ece3;
+  background: #f0f4f9;
   /* 원본 파일 min-width:820px → iframe 내부에서 자체 처리.
      820px 미만 화면에서는 iframe 내부 모바일 뷰가 작동함. */
 }
@@ -365,8 +357,8 @@ html, body {
 .kn-err-code  {
   display: inline-block;
   padding: 6px 14px;
-  background: #1e2a3a;
-  color: #c9a452;
+  background: #1a3f72;
+  color: #90c4f0;
   border-radius: 6px;
   font-size: 11px;
   font-family: 'IBM Plex Mono', 'Consolas', monospace;
@@ -384,7 +376,7 @@ html, body {
   box-shadow: var(--kn-neu-convex);
   font-family: inherit;
 }
-.kn-err-retry:hover { background: #ede9e0; }
+.kn-err-retry:hover { background: #dde6f2; }
 
 /* [STEP12-CSS] 로컬 서버 안내 방법 카드 */
 .kn-err-methods {
@@ -396,8 +388,8 @@ html, body {
   text-align: left;
 }
 .kn-err-method {
-  background: #1e2a3a;
-  border: 1px solid #2d3f52;
+  background: #1e3556;
+  border: 1px solid #2a4870;
   border-radius: 8px;
   padding: 12px 14px;
 }
@@ -415,8 +407,8 @@ html, body {
 .kn-err-method-body code,
 .kn-err-desc code {
   display: inline-block;
-  background: #0f1a26;
-  color: #c9a452;
+  background: #0d2a50;
+  color: #90c4f0;
   border-radius: 4px;
   padding: 1px 6px;
   font-family: 'IBM Plex Mono', 'Consolas', monospace;
@@ -537,10 +529,18 @@ html, body {
    [STEP06-CSS-01] panel-student — 학생 성적 입력 폼
    뉴모피즘 베이스 유지, 섹션 카드 구조.
    ================================================================ */
+/* kn-student-panel 자체는 full-width — ipsi-nav 대시보드가 전체 너비 사용 */
 #kn-student-panel {
+  max-width: 100%;
+  margin: 0;
+  padding: 0 0 60px;
+}
+
+/* 성적 입력 폼 영역만 중앙 680px 제한 */
+#ipsi-nav-form-wrap {
   max-width: 680px;
-  margin: 28px auto;
-  padding: 0 16px 60px;
+  margin: 0 auto;
+  padding: 0 16px;
 }
 
 /* 섹션 카드 */
@@ -684,7 +684,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   color: var(--kn-text-m);
   box-shadow: var(--kn-neu-convex);
 }
-.kn-s-btn--ghost:hover { background: #ddd8cf; }
+.kn-s-btn--ghost:hover { background: #d4dfed; }
 
 /* 성공 피드백 배너 */
 #kn-student-feedback {
@@ -964,7 +964,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   box-shadow: var(--kn-neu-convex);
   transition: box-shadow 0.12s, transform 0.08s;
 }
-.kn-wl-export-btn:hover  { background: #ddd8cf; }
+.kn-wl-export-btn:hover  { background: #d4dfed; }
 .kn-wl-export-btn:active { transform: scale(0.97); }
 
 /* ================================================================
@@ -1058,7 +1058,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   font-size: 11px; font-weight: 600; cursor: pointer;
   box-shadow: var(--kn-neu-convex); font-family: inherit;
 }
-.kn-wl-sort-btn:hover { background: #ddd8cf; }
+.kn-wl-sort-btn:hover { background: #d4dfed; }
 
 /* ── 빈 목록 안내 ── */
 #kn-wl-empty {
@@ -1658,6 +1658,439 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   .kn-rpt-info-grid { grid-template-columns: repeat(2, 1fr); }
   #kn-report-panel { padding: 14px 10px 40px; }
 }
+
+/* ================================================================
+   [IPSI-NAV] 메인 대시보드 히어로 영역
+   네임스페이스: ipsi-nav-  (기존 kn- 와 충돌 없음)
+   ================================================================ */
+
+/* 히어로 내부 max-width 래퍼 */
+.ipsi-nav-hero-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 히어로 래퍼 — 학생 성적 패널 최상단에 삽입 */
+#ipsi-nav-hero {
+  background: linear-gradient(135deg, #0f2d5e 0%, #1a3f72 60%, #1d5099 100%);
+  border-radius: 0 0 20px 20px;
+  padding: 28px 28px 24px;
+  margin-bottom: 20px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+#ipsi-nav-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(201,164,82,0.08);
+  pointer-events: none;
+}
+#ipsi-nav-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -60px; left: 30%;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: rgba(201,164,82,0.05);
+  pointer-events: none;
+}
+
+.ipsi-nav-hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.ipsi-nav-title {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+  color: #fff;
+  margin: 0 0 4px;
+}
+.ipsi-nav-subtitle {
+  font-size: 12px;
+  color: rgba(255,255,255,0.65);
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+/* 오늘 상담 시작 버튼 그룹 */
+.ipsi-nav-hero-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* 뱃지 모음 */
+.ipsi-nav-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+}
+.ipsi-nav-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.82);
+  border: 1px solid rgba(255,255,255,0.15);
+  letter-spacing: 0.1px;
+}
+.ipsi-nav-badge--accent {
+  background: rgba(79,163,240,0.25);
+  color: #c8e8ff;
+  border-color: rgba(79,163,240,0.35);
+}
+
+/* 상담 흐름 바 */
+.ipsi-nav-flow {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.ipsi-nav-flow::-webkit-scrollbar { display: none; }
+
+.ipsi-nav-flow-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.ipsi-nav-flow-step-inner {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.07);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.ipsi-nav-flow-step-inner:hover {
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.9);
+}
+.ipsi-nav-flow-step-inner.ipsi-nav-flow-step--active {
+  background: rgba(79,163,240,0.22);
+  color: #c8e8ff;
+  border-color: rgba(79,163,240,0.35);
+}
+.ipsi-nav-flow-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  font-size: 9px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+.ipsi-nav-flow-step--active .ipsi-nav-flow-num {
+  background: rgba(79,163,240,0.55);
+  color: #fff;
+}
+.ipsi-nav-flow-arrow {
+  color: rgba(255,255,255,0.22);
+  font-size: 12px;
+  margin: 0 2px;
+  flex-shrink: 0;
+}
+
+/* ── 메인 카드 그리드 ── */
+#ipsi-nav-card-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+  align-items: stretch; /* 카드 높이 균일화 */
+}
+
+.ipsi-nav-card {
+  background: var(--kn-bg);
+  border-radius: 16px;
+  box-shadow: var(--kn-neu-flat);
+  padding: 20px 20px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: box-shadow 0.15s, transform 0.12s;
+  cursor: default;
+  height: 100%; /* 카드 높이 균일화 */
+}
+.ipsi-nav-card:hover {
+  box-shadow: 8px 8px 18px var(--kn-shd-d), -4px -4px 12px var(--kn-shd-l);
+  transform: translateY(-1px);
+}
+
+.ipsi-nav-card-icon {
+  font-size: 26px;
+  line-height: 1;
+}
+.ipsi-nav-card-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--kn-primary);
+  letter-spacing: -0.4px;
+  line-height: 1.3;
+}
+.ipsi-nav-card-desc {
+  font-size: 11px;
+  color: var(--kn-text-m);
+  line-height: 1.65;
+  flex: 1;
+}
+.ipsi-nav-card-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  letter-spacing: 0.2px;
+}
+.ipsi-nav-card-tag--blue {
+  background: rgba(37,99,235,0.1);
+  color: #1d4ed8;
+}
+.ipsi-nav-card-tag--gold {
+  background: rgba(201,164,82,0.14);
+  color: #a07a10;
+}
+.ipsi-nav-card-tag--green {
+  background: rgba(22,163,74,0.1);
+  color: #15803d;
+}
+.ipsi-nav-card-tag--gray {
+  background: rgba(100,116,139,0.1);
+  color: #475569;
+}
+
+.ipsi-nav-card-actions {
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+  margin-top: auto;
+}
+
+.ipsi-nav-card > button,
+.ipsi-nav-card-actions {
+  margin-top: auto;
+}
+
+/* 카드 내 버튼 */
+.ipsi-nav-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 9px 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: -0.2px;
+  transition: box-shadow 0.12s, transform 0.08s, background 0.1s;
+  text-decoration: none;
+}
+.ipsi-nav-primary-btn:active { transform: scale(0.97); }
+
+.ipsi-nav-primary-btn--blue {
+  background: var(--kn-primary);
+  color: #fff;
+  box-shadow: 3px 3px 8px var(--kn-shd-d), -1px -1px 4px var(--kn-shd-l);
+}
+.ipsi-nav-primary-btn--blue:hover { background: #234b7a; }
+
+.ipsi-nav-primary-btn--gold {
+  background: #c9a452;
+  color: #fff;
+  box-shadow: 3px 3px 8px var(--kn-shd-d), -1px -1px 4px var(--kn-shd-l);
+}
+.ipsi-nav-primary-btn--gold:hover { background: #b08a3a; }
+
+.ipsi-nav-primary-btn--ghost {
+  background: var(--kn-surface);
+  color: var(--kn-text-m);
+  box-shadow: var(--kn-neu-convex);
+}
+.ipsi-nav-primary-btn--ghost:hover { background: #ddd8cf; }
+
+.ipsi-nav-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  background: rgba(30,58,95,0.1);
+  color: var(--kn-primary);
+  transition: background 0.12s;
+  text-decoration: none;
+}
+.ipsi-nav-secondary-btn:hover { background: rgba(30,58,95,0.18); }
+
+/* 히어로 내 액션 버튼 */
+.ipsi-nav-hero-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.12s, transform 0.08s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ipsi-nav-hero-btn:active { transform: scale(0.97); }
+
+.ipsi-nav-hero-btn--primary {
+  background: #4fa3f0;
+  color: #fff;
+}
+.ipsi-nav-hero-btn--primary:hover { background: #3090e0; }
+
+.ipsi-nav-hero-btn--ghost {
+  background: rgba(255,255,255,0.13);
+  color: rgba(255,255,255,0.88);
+  border: 1px solid rgba(255,255,255,0.18);
+}
+.ipsi-nav-hero-btn--ghost:hover { background: rgba(255,255,255,0.2); }
+
+/* 히어로 상담 안내 문구 */
+.ipsi-nav-hero-guide {
+  margin-top: 8px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.78);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── 보조 도구 영역 ── */
+#ipsi-nav-tools {
+  background: var(--kn-surface);
+  border-radius: 14px;
+  box-shadow: var(--kn-neu-inset);
+  padding: 16px 18px;
+  margin-bottom: 18px;
+}
+.ipsi-nav-tools-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--kn-text-l);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.ipsi-nav-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* 학생 성적 탭 본문 섹션 구분선 */
+.ipsi-nav-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--kn-text-l);
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.ipsi-nav-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--kn-border);
+}
+
+/* ── 반응형 ── */
+@media (max-width: 680px) {
+  #ipsi-nav-card-grid {
+    grid-template-columns: 1fr;
+    padding: 0 12px;
+  }
+  #ipsi-nav-hero {
+    padding: 20px 16px 18px;
+    border-radius: 0 0 16px 16px;
+  }
+  .ipsi-nav-title { font-size: 18px; }
+  .ipsi-nav-hero-top { flex-direction: column; gap: 12px; }
+  .ipsi-nav-hero-actions { width: 100%; }
+  .ipsi-nav-hero-btn { flex: 1; justify-content: center; }
+  #ipsi-nav-tools { margin: 0 12px 18px; }
+}
+
+@media (min-width: 681px) and (max-width: 899px) {
+  #ipsi-nav-card-grid { padding: 0 16px; }
+  #ipsi-nav-tools { margin: 0 16px 18px; }
+}
+
+@media (min-width: 900px) {
+  #ipsi-nav-card-grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    padding: 0 28px;
+    align-items: stretch; /* 4열 카드 높이 균일화 */
+  }
+  #ipsi-nav-tools {
+    max-width: 1200px;
+    margin: 0 auto 18px;
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+  #ipsi-nav-hero {
+    padding: 36px 40px 30px;
+  }
+  .ipsi-nav-title { font-size: 28px; letter-spacing: -1px; }
+  .ipsi-nav-subtitle { font-size: 13px; }
+}
 </style>
 </head>
 <body>
@@ -1667,8 +2100,8 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
      ================================================================ -->
 <div id="kn-app-header">
   <div id="kn-app-title">
-    <span class="kn-logo-mark">경일 진학상담 Navigator</span>
-    <span class="kn-logo-sub">v1 · 학생 성적 기반 대학전형 탐색 및 상담 리포트 도구</span>
+    <span class="kn-logo-mark">IPSI 상담 Navigator</span>
+    <span class="kn-logo-sub">창원경일고 · 경일여고 진학 상담 대시보드 · v1</span>
   </div>
 
   <nav id="kn-tabbar" role="tablist" aria-label="주요 메뉴">
@@ -1749,6 +2182,197 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
        aria-labelledby="kn-tab-student">
 
     <div id="kn-student-panel">
+
+      <!-- ================================================================
+           [IPSI-NAV-HTML-01] 메인 대시보드 히어로 영역
+           기능 로직 없음. 탭 전환 onclick만 연결.
+           ================================================================ -->
+      <div id="ipsi-nav-hero">
+        <div class="ipsi-nav-hero-inner">
+
+        <!-- 상단: 타이틀 + 액션 버튼 -->
+        <div class="ipsi-nav-hero-top">
+          <div>
+            <div class="ipsi-nav-title">IPSI 상담 Navigator</div>
+            <div class="ipsi-nav-subtitle">창원경일고 · 경일여고 진학 상담 대시보드</div>
+            <div class="ipsi-nav-hero-guide">오늘 상담 시작 — 학생을 선택하거나 성적을 입력한 뒤, 대학·학과 탐색을 시작하세요.</div>
+          </div>
+          <div class="ipsi-nav-hero-actions">
+            <button class="ipsi-nav-hero-btn ipsi-nav-hero-btn--primary"
+                    onclick="document.getElementById('kn-inp-name').focus();document.getElementById('kn-inp-name').scrollIntoView({behavior:'smooth',block:'center'})">
+              성적 입력 시작
+            </button>
+            <button class="ipsi-nav-hero-btn ipsi-nav-hero-btn--ghost"
+                    onclick="knSwitchTab('ipsi-detail')">
+              교과 탐색기 열기
+            </button>
+            <button class="ipsi-nav-hero-btn ipsi-nav-hero-btn--ghost"
+                    onclick="knSwitchTab('watchlist')">
+              관심 비교 보기
+            </button>
+            <button class="ipsi-nav-hero-btn ipsi-nav-hero-btn--ghost"
+                    onclick="knSwitchTab('report')">
+              상담 리포트
+            </button>
+          </div>
+        </div>
+
+        <!-- 기능 배지 -->
+        <div class="ipsi-nav-badges">
+          <span class="ipsi-nav-badge ipsi-nav-badge--accent">학생부교과 탐색</span>
+          <span class="ipsi-nav-badge">5등급↔9등급 변환</span>
+          <span class="ipsi-nav-badge">경일고·경일여고 실적</span>
+          <span class="ipsi-nav-badge">관심 후보 비교</span>
+          <span class="ipsi-nav-badge">상담 리포트</span>
+        </div>
+
+        <!-- 상담 흐름 단계 바 -->
+        <div class="ipsi-nav-flow" role="navigation" aria-label="상담 진행 단계">
+          <div class="ipsi-nav-flow-step">
+            <div class="ipsi-nav-flow-step-inner ipsi-nav-flow-step--active"
+                 onclick="knSwitchTab('student')" title="학생 성적 입력">
+              <span class="ipsi-nav-flow-num">1</span>
+              학생 선택
+            </div>
+          </div>
+          <span class="ipsi-nav-flow-arrow">›</span>
+          <div class="ipsi-nav-flow-step">
+            <div class="ipsi-nav-flow-step-inner"
+                 onclick="knSwitchTab('student')" title="성적 확인">
+              <span class="ipsi-nav-flow-num">2</span>
+              성적 확인
+            </div>
+          </div>
+          <span class="ipsi-nav-flow-arrow">›</span>
+          <div class="ipsi-nav-flow-step">
+            <div class="ipsi-nav-flow-step-inner"
+                 onclick="knSwitchTab('chart')" title="전국 입결 탐색">
+              <span class="ipsi-nav-flow-num">3</span>
+              대학 탐색
+            </div>
+          </div>
+          <span class="ipsi-nav-flow-arrow">›</span>
+          <div class="ipsi-nav-flow-step">
+            <div class="ipsi-nav-flow-step-inner"
+                 onclick="knSwitchTab('watchlist')" title="관심 학과 비교">
+              <span class="ipsi-nav-flow-num">4</span>
+              관심 비교
+            </div>
+          </div>
+          <span class="ipsi-nav-flow-arrow">›</span>
+          <div class="ipsi-nav-flow-step">
+            <div class="ipsi-nav-flow-step-inner"
+                 onclick="knSwitchTab('report')" title="상담 리포트 작성">
+              <span class="ipsi-nav-flow-num">5</span>
+              상담 정리
+            </div>
+          </div>
+        </div>
+
+        </div><!-- /.ipsi-nav-hero-inner -->
+
+      </div><!-- /#ipsi-nav-hero -->
+
+      <!-- ================================================================
+           [IPSI-NAV-HTML-02] 주요 도구 카드 그리드
+           ================================================================ -->
+      <div id="ipsi-nav-card-grid">
+
+        <!-- 카드 1: 학생 성적 -->
+        <div class="ipsi-nav-card">
+          <div class="ipsi-nav-card-icon">📋</div>
+          <div>
+            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--blue">STEP 1</span>
+            <div class="ipsi-nav-card-title">학생 성적 불러오기</div>
+          </div>
+          <div class="ipsi-nav-card-desc">
+            엑셀 성적 파일을 불러오거나 학생 성적을 직접 입력합니다. 이름·9등급·5등급을 설정하면 모든 탭에 반영됩니다.
+          </div>
+          <button class="ipsi-nav-primary-btn ipsi-nav-primary-btn--blue"
+                  onclick="document.getElementById('kn-inp-name').focus();document.getElementById('kn-inp-name').scrollIntoView({behavior:'smooth',block:'center'})">
+            성적 입력 시작
+          </button>
+        </div>
+
+        <!-- 카드 2: 대학·학과 탐색 -->
+        <div class="ipsi-nav-card">
+          <div class="ipsi-nav-card-icon">🔍</div>
+          <div>
+            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--blue">STEP 2–3</span>
+            <div class="ipsi-nav-card-title">대학·학과 탐색</div>
+          </div>
+          <div class="ipsi-nav-card-desc">
+            <strong style="color:var(--kn-primary);">전국 입결 탐색:</strong> 전체 대학·학과의 3개년 입결을 넓게 확인합니다.<br>
+            <strong style="color:var(--kn-primary);">교과 정밀 판정:</strong> 학생 성적 기준으로 안정·가능·소신·위험을 세부 판정합니다.
+          </div>
+          <div class="ipsi-nav-card-actions">
+            <button class="ipsi-nav-primary-btn ipsi-nav-primary-btn--blue"
+                    onclick="knSwitchTab('chart')">
+              전국 입결 탐색
+            </button>
+            <button class="ipsi-nav-secondary-btn"
+                    onclick="knSwitchTab('ipsi-detail')">
+              교과 정밀 판정
+            </button>
+          </div>
+        </div>
+
+        <!-- 카드 3: 관심 후보 비교 -->
+        <div class="ipsi-nav-card">
+          <div class="ipsi-nav-card-icon">⭐</div>
+          <div>
+            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--gold">STEP 4</span>
+            <div class="ipsi-nav-card-title">관심 후보 비교</div>
+          </div>
+          <div class="ipsi-nav-card-desc">
+            관심 대학·학과를 모아 수시 6장 후보를 비교합니다. 지원 유형별 안배와 Excel 내보내기가 가능합니다.
+          </div>
+          <button class="ipsi-nav-primary-btn ipsi-nav-primary-btn--gold"
+                  onclick="knSwitchTab('watchlist')">
+            관심 비교 보기
+          </button>
+        </div>
+
+        <!-- 카드 4: 상담 리포트 -->
+        <div class="ipsi-nav-card">
+          <div class="ipsi-nav-card-icon">📄</div>
+          <div>
+            <span class="ipsi-nav-card-tag ipsi-nav-card-tag--green">STEP 5</span>
+            <div class="ipsi-nav-card-title">상담 리포트</div>
+          </div>
+          <div class="ipsi-nav-card-desc">
+            학생·학부모 상담 내용을 정리합니다. 텍스트 복사, AI 프롬프트 생성, 인쇄가 가능합니다.
+          </div>
+          <button class="ipsi-nav-primary-btn ipsi-nav-primary-btn--ghost"
+                  onclick="knSwitchTab('report')">
+            상담 요약 작성
+          </button>
+        </div>
+
+      </div><!-- /#ipsi-nav-card-grid -->
+
+      <!-- ================================================================
+           [IPSI-NAV-HTML-03] 보조 도구 영역
+           ================================================================ -->
+      <div id="ipsi-nav-tools">
+        <div class="ipsi-nav-tools-title">보조 도구</div>
+        <div class="ipsi-nav-tools-row">
+          <button class="ipsi-nav-secondary-btn"
+                  onclick="knSwitchTab('ipsi-detail')">
+            교과 정밀 판정 열기
+          </button>
+          <a class="ipsi-nav-secondary-btn" href="ipsi.html" target="_blank"
+             rel="noopener">
+            세부 입결 탐색기 (별창)
+          </a>
+        </div>
+      </div>
+
+      <!-- 성적 입력 폼 래퍼 시작 (max-width 680px 제한) -->
+      <div id="ipsi-nav-form-wrap">
+
+      <!-- 성적 입력 폼 영역 구분선 -->
+      <div class="ipsi-nav-section-divider">학생 성적 입력</div>
 
       <!-- 최근 상담 학생 히스토리 (STEP10) -->
       <div id="kn-history-wrap">
@@ -1960,6 +2584,8 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
         <span id="kn-feedback-text">학생 성적이 적용되었습니다. 전국 입결 탐색 / 관심 학과 비교 / 교과 정밀 판정 탭에서 확인하세요.</span>
       </div>
 
+      </div><!-- /#ipsi-nav-form-wrap -->
+
     </div><!-- /#kn-student-panel -->
   </div><!-- /#panel-student -->
 
@@ -1970,8 +2596,8 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
     - 같은 폴더에 원본 파일이 있어야 동작함
     - iframe src는 knInitChartFrame() 호출 시 동적으로 설정 (지연 로드)
     - 학생 성적 전달: postMessage({ type:'kyeongil:set-student', ... })
-    - 원본 파일 내부에서 이 메시지를 수신하려면 STEP06 브릿지 패치 필요
-      (원본 파일 body 끝에 수신 스크립트 1개 삽입 — 20줄 미만)
+    - chart2025.html에는 [KN-BRIDGE] 수신 코드가 반영되어 있어
+      studentPct / #student-pct / render() / syncListView()와 연동됨
   -->
   <div class="kn-panel"
        id="panel-chart"
@@ -2017,7 +2643,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
             <div class="kn-err-method-body">
               1. VS Code에서 폴더를 열기<br>
               2. 확장 프로그램 <strong>Live Server</strong> 설치<br>
-              3. <code>KN_Navigator_v1.html</code> 파일에서<br>
+              3. <code>index.html</code> 파일에서<br>
               &nbsp;&nbsp;&nbsp;우클릭 → <strong>Open with Live Server</strong>
             </div>
           </div>
@@ -2028,7 +2654,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
               파일이 있는 폴더에서 터미널(명령 프롬프트) 열기:<br><br>
               <code>python -m http.server 8080</code><br><br>
               실행 후 브라우저에서<br>
-              <code>http://localhost:8080/KN_Navigator_v1.html</code><br>
+              <code>http://localhost:8080/index.html</code><br>
               주소를 직접 입력하세요.
             </div>
           </div>
@@ -2057,11 +2683,10 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
   <!-- ── PANEL 4: 교과 정밀 판정 ── -->
   <!--
     [STEP05-HTML-01] iframe 통합 방식
-    원본 파일: ipsi-main/ipsi.html
-    - 하위 폴더(ipsi-main/)에 index.html이 있어야 동작
+    원본 파일: ipsi.html (같은 폴더)
+    - 같은 폴더에 ipsi.html이 있어야 동작
     - 외부 CDN 사용(xlsx, Google Fonts) → sandbox allow-scripts allow-same-origin 필요
     - 학생 성적 전달: postMessage({ type:'kyeongil:set-grade', data: APP_STATE.student })
-    - 원본 파일 수신 패치는 STEP06에서 진행 (20줄 미만, 단독 동작 영향 없음)
   -->
   <div class="kn-panel"
        id="panel-ipsi-detail"
@@ -2105,7 +2730,7 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
             <div class="kn-err-method-title">✅ 방법 1 — VS Code Live Server (추천)</div>
             <div class="kn-err-method-body">
               VS Code에서 폴더를 열고<br>
-              <code>KN_Navigator_v1.html</code> 우클릭<br>
+              <code>index.html</code> 우클릭<br>
               → <strong>Open with Live Server</strong>
             </div>
           </div>
@@ -2115,14 +2740,14 @@ input[type='range'].kn-s-range::-webkit-slider-thumb {
             <div class="kn-err-method-body">
               파일이 있는 폴더에서 터미널 열기:<br><br>
               <code>python -m http.server 8080</code><br><br>
-              → <code>http://localhost:8080/KN_Navigator_v1.html</code>
+              → <code>http://localhost:8080/index.html</code>
             </div>
           </div>
 
         </div>
 
         <div class="kn-err-desc" style="margin-top:14px;font-size:11px;color:var(--kn-text-m);">
-          필요한 파일: <code>ipsi-main/ipsi.html</code> (하위 폴더)
+          필요한 파일: <code>ipsi.html</code> (같은 폴더)
         </div>
         <button class="kn-err-retry" onclick="knRetryIpsiFrame()">🔄 서버 실행 후 다시 시도</button>
       </div>
@@ -4661,26 +5286,18 @@ window.knRetryChartFrame = knRetryChartFrame;
 <script>
 /**
  * knBridgeStudentToFrame()
- * 현재 APP_STATE.student를 iframe(전형결과 파일)으로 전송한다.
+ * 현재 APP_STATE.student를 chart2025.html iframe으로 전송한다.
  *
- * 메시지 구조:
+ * 전송 메시지:
  *   { type: 'kyeongil:set-student', data: APP_STATE.student }
  *
- * ─── 원본 파일 수신 패치 (STEP06에서 삽입) ───────────────────────────
- *   원본 파일 
-</body> 바로 위에 아래 스크립트 1개 삽입:
- *
- *   window.addEventListener('message', function(e) {
- *     if (!e.data || e.data.type !== 'kyeongil:set-student') return;
- *     var s = e.data.data;
- *     if (s && s.grade9 != null) {
- *       // 전형결과 파일의 기준선 설정 함수 호출
- *       if (typeof setStudentBaseline === 'function') setStudentBaseline(s.grade9);
- *       else if (typeof setBase === 'function')       setBase(s.grade9);
- *       else console.log('[KN-bridge] 수신: 9등급 =', s.grade9);
- *     }
- *   });
- * ─────────────────────────────────────────────────────────────────────
+ * chart2025.html 수신 구조:
+ * - [KN-BRIDGE] setupKyeongilStudentBridge()
+ * - percentile 우선 반영
+ * - percentile이 없으면 grade9 → g2p() 환산
+ * - studentPct 갱신
+ * - #student-pct 입력창 반영
+ * - render() 및 syncListView() 호출
  */
 function knBridgeStudentToFrame() {
   var s = window.APP_STATE && window.APP_STATE.student;
@@ -4823,7 +5440,7 @@ console.log('[KN] STEP04/05 이벤트 리스너 등록 완료');
  * 원본 ipsi 파일 경로 상수
  * 폴더명/파일명이 바뀌면 이 값만 수정.
  */
-var KN_IPSI_FILE = 'ipsi-main/ipsi.html';
+var KN_IPSI_FILE = 'ipsi.html';
 
 var _knIpsiFrameInitialized = false;
 
@@ -4894,9 +5511,8 @@ window.knRetryIpsiFrame = knRetryIpsiFrame;
  * 메시지 구조:
  *   { type: 'kyeongil:set-grade', data: APP_STATE.student }
  *
- * ─── 원본 파일 수신 패치 (STEP06에서 삽입) ──────────────────────────
- *   ipsi-main/ipsi.html 의 
-</body> 바로 위에 아래 스크립트 삽입:
+ * ─── ipsi.html 수신 코드 확인 완료 (kyeongil:set-grade 수신 코드 내장) ──────
+ *   ipsi.html 의 </body> 바로 위에 수신 스크립트가 이미 삽입되어 있음.
  *
  *   window.addEventListener('message', function(e) {
  *     if (!e.data || e.data.type !== 'kyeongil:set-grade') return;
@@ -5057,7 +5673,7 @@ window.knBridgeStudentToIpsi = knBridgeStudentToIpsi;
 
   [STEP03] 5탭 뼈대 (APP_STATE, knSwitchTab, KN_STORAGE_KEYS)
   [STEP04] 전국 입결 탐색 탭 — iframe (전형결과 파일)
-  [STEP05] 교과 정밀 판정 탭 — iframe (ipsi-main/ipsi.html)
+  [STEP05] 교과 정밀 판정 탭 — iframe (ipsi.html)
   [STEP06] 학생 성적 입력 폼 — 수동 입력, 슬라이더, localStorage
   [STEP07] 관심 학과 탭 — CRUD, 정렬, localStorage
   [STEP08] 상담 리포트 탭 — 자동 생성, 인쇄, 클립보드, AI 프롬프트
@@ -5069,75 +5685,40 @@ window.knBridgeStudentToIpsi = knBridgeStudentToIpsi;
            - 금지표현 제거, 권장표현 적용
            - clipboard 실패 시 textarea fallback 모달
 
-  배포 폴더 구조
-  ├── STEP11_AI프롬프트복사.html               ← 이 파일
-  ├── chart2025.html  ← PATCH A 삽입 필요
-  └── ipsi-main/
-      └── index.html                           ← PATCH B 삽입 필요
-
-  PATCH A/B: STEP06_원본파일_패치가이드.html 참조
+  배포 폴더 구조 (최종)
+  ├── index.html          ← 메인 Navigator (이 파일)
+  ├── ipsi.html           ← 교과 정밀 판정 탐색기
+  └── chart2025.html      ← 전국 입결 탐색기
   ================================================================
 
-  다음 작업자 인계인수
+  최종 배포 메모
   ────────────────────────────────────────────────────────────────
-  현재 단계
-  - STEP번호: STEP11
-  - 산출물 파일명: STEP11_AI프롬프트복사.html
-  - 완료한 작업:
-    · knBuildAiPrompt() 신규 작성
-      - 전형별 분리 블록 (수능위주/학생부교과/학생부종합/기타)
-      - 종합전형 고정 안내문 자동 삽입
-      - 금지표현("합격 가능성/확률/예측") 제거
-      - 권장표현("전년도 결과 기준 근접", "정성검토") 적용
-      - 교사 메모, 전형별 유의사항, 요청사항 블록 포함
-    · knCopyAiPrompt() 개선
-      - clipboard API 실패 시 prompt() 변수명 충돌 버그 제거
-      - knOpenAiModal() fallback으로 교체
-    · textarea fallback 모달 신규 추가
-      - #kn-ai-modal-overlay, #kn-ai-modal-text
-      - 전체선택 버튼, 닫기 버튼
-    · window 노출: knBuildAiPrompt, knOpenAiModal,
-                   knCloseAiModal, knSelectAiModalText
-    · 자가 진단 체크리스트에 STEP11 항목 추가
+  배포 파일:
+  - index.html
+  - ipsi.html
+  - chart2025.html
 
-  다음 단계에서 해야 할 일
-  - 다음 STEP번호: STEP12
-  - 목표: 최종 검수 및 배포본(KN_Navigator_v1.html) 생성
-  - 수정 대상 파일: STEP11_AI프롬프트복사.html → 최종 파일로 복사
-  - 검수 항목 (STEP01 계획서 12절 참조):
-    1. 최초 로딩 콘솔 오류
-    2. 5탭 전환
-    3. 학생 성적 입력/선택
-    4. 기준선 자동 연동
-    5. 전국 입결 검색/필터
-    6. 관심목록 추가/삭제/메모
-    7. 학생별 관심목록 구분
-    8. 리포트 출력
-    9. AI 프롬프트 복사 + fallback 모달
-    10. 모바일 화면
-    11. 인쇄 화면
-    12. localStorage 마이그레이션
+  실행 권장 방식:
+  1. 세 파일을 같은 폴더에 둔다.
+  2. VS Code Live Server 또는 python -m http.server 8080으로 실행한다.
+  3. 브라우저에서 http://localhost:8080/index.html을 연다.
 
-  절대 하지 말 것
-  - 사용자 확인 없이 STEP12 자동 진행 금지
-  - 기존 기능 대수술 금지
-  - 전체 CSS 자동 prefix 금지
-  - 전체 JS IIFE 감싸기 후 window 노출 검증 없이 종료 금지
-  - "합격 확률/합격 가능성" 표현 사용 금지
+  최종 검수 항목:
+  1. 학생 성적 입력
+  2. 엑셀 업로드
+  3. 전국 입결 탐색 탭
+  4. 교과 정밀 판정 탭
+  5. 관심 학과 비교 탭
+  6. 상담 리포트 탭
+  7. AI 프롬프트 복사
+  8. 모바일 화면
+  9. 인쇄 화면
+  10. localStorage 복원
 
-  검증 체크리스트
-  [x] 브라우저 로딩 가능
-  [x] 콘솔 치명 오류 없음
-  [x] AI 프롬프트 복사 버튼 작동
-  [x] fallback 모달 표시 (clipboard 차단 환경)
-  [x] 전형별 분리 + 종합 정성검토 문구 포함
-  [x] 이전 단계(STEP03~10) 기능 보존
-  ────────────────────────────────────────────────────────────────
-
-  사용자 확인 요청:
-  이 단계 산출물을 확인해 주세요.
-  확인 후 다음 단계 진행 여부를 알려주시면
-  STEP12_최종검수보고서.md 및 KN_Navigator_v1.html을 생성하겠습니다.
+  유지보수 주의:
+  - KN_IPSI_FILE 값은 ipsi.html
+  - KN_CHART_FILE 값은 chart2025.html
+  - 파일명을 바꿀 경우 위 두 상수를 함께 수정해야 함
   ================================================================
 -->
 

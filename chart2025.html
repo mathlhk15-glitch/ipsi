@@ -25,13 +25,14 @@
 <title>2025기준 대학별 전형결과</title>
 <style>
 :root{
-  --bg:#f0ece3;--shd-l:#ffffff;--shd-d:#c8bcaa;
-  --primary:#1e3a5f;--accent:#c9a452;
-  --text:#1e2a3a;--text-m:#5a4a3a;--text-l:#8a7a6a;
-  --gold-border:1px solid rgba(201,164,82,.35);
-  --neu-flat:8px 8px 14px var(--shd-d),-8px -8px 14px var(--shd-l);
-  --neu-inset:inset 5px 5px 10px var(--shd-d),inset -5px -5px 10px var(--shd-l);
-  --neu-convex:5px 5px 10px var(--shd-d),-5px -5px 10px var(--shd-l);
+  /* index.html 디자인 팔레트 통일 */
+  --bg:#f0f4f9;--shd-l:#ffffff;--shd-d:#c5d0df;
+  --primary:#1a3f72;--accent:#2a7de1;
+  --text:#1a2840;--text-m:#4a5a72;--text-l:#7a8fa8;
+  --gold-border:1px solid rgba(59,130,200,0.22);
+  --neu-flat:6px 6px 12px var(--shd-d),-6px -6px 12px var(--shd-l);
+  --neu-inset:inset 4px 4px 8px var(--shd-d),inset -4px -4px 8px var(--shd-l);
+  --neu-convex:4px 4px 8px var(--shd-d),-4px -4px 8px var(--shd-l);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;
@@ -46,7 +47,7 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
 .ctrl{display:flex;align-items:center;gap:7px;margin-bottom:9px;flex-wrap:wrap}
 #srch,#srch-dept{
   padding:6px 12px;border-radius:10px;border:none;
-  background:#e8e4db;color:var(--text);font-size:12px;width:178px;outline:none;
+  background:#dce5f0;color:var(--text);font-size:12px;width:178px;outline:none;
   box-shadow:var(--neu-inset);font-family:inherit;}
 #srch:focus,#srch-dept:focus{box-shadow:var(--neu-inset),0 0 0 2px rgba(30,58,95,.18)}
 #srch::placeholder,#srch-dept::placeholder{color:var(--text-l)}
@@ -78,7 +79,7 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
 #chart-wrap{padding:14px 22px 60px;overflow-x:auto}
 #chart-svg{display:block}
 .row-bg{transition:fill .1s}
-.unv-row:hover .row-bg{fill:#ece7de!important}
+.unv-row:hover .row-bg{fill:#dce9f5!important}
 #tt{display:none;position:fixed;background:var(--bg);color:var(--text);
   padding:11px 15px;border-radius:18px;font-size:12px;pointer-events:none;z-index:9999;
   border:var(--gold-border);box-shadow:var(--neu-flat);max-width:270px;line-height:1.5;font-family:inherit;}
@@ -96,10 +97,10 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: #ede8de;
+  background: #dde6f2;
   border-radius: 6px;
   overflow: hidden;
-  border: 1px solid rgba(200,188,170,.35);
+  border: 1px solid rgba(59,130,200,.25);
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   transform-origin: left center;
 }
@@ -126,18 +127,18 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
   min-width: 0 !important;
 }
 .cell-24 {
-  color: #8a6a5a !important;
+  color: #5a7090 !important;
   background: rgba(0, 0, 0, 0.02) !important;
   font-size: 10px !important;
   text-align: center;
 }
 .th-24 {
-  color: #8a6a5a !important;
-  background: #d4cec4 !important;
+  color: #5a7090 !important;
+  background: #c8d8ea !important;
   font-size: 9px !important;
   font-weight: 700;
   text-align: center;
-  border-bottom: 1px solid rgba(200,188,170,.5);
+  border-bottom: 1px solid rgba(59,130,200,.35);
 }
 #copy-toast {
   display: none;
@@ -188,8 +189,8 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
 .help-sec ul{margin:0;padding-left:14px;line-height:1.75;color:var(--text-m);}
 .help-kw{font-weight:700;color:var(--text);}
 .help-tbl{width:100%;border-collapse:collapse;font-size:10px;margin-top:5px;}
-.help-tbl th{background:rgba(30,58,95,.08);color:var(--primary);font-weight:700;padding:3px 6px;text-align:center;border:1px solid rgba(201,164,82,.3);}
-.help-tbl td{padding:2px 6px;text-align:center;border:1px solid rgba(201,164,82,.2);color:var(--text-m);}
+.help-tbl th{background:rgba(26,63,114,.08);color:var(--primary);font-weight:700;padding:3px 6px;text-align:center;border:1px solid rgba(59,130,200,.25);}
+.help-tbl td{padding:2px 6px;text-align:center;border:1px solid rgba(59,130,200,.15);color:var(--text-m);}
 .help-note{font-size:10px;color:var(--text-l);margin-top:5px;line-height:1.6;}
 
 /* ── STEP02: 학생 성적 입력 ── */
@@ -197,16 +198,16 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
 #student-pct-wrap{position:relative;display:inline-flex;align-items:center;}
 #student-pct{
   padding:6px 12px;border-radius:10px;border:none;width:200px;
-  background:#e8e4db;color:var(--text);font-size:12px;outline:none;
+  background:#dce5f0;color:var(--text);font-size:12px;outline:none;
   box-shadow:var(--neu-inset);font-family:inherit;}
-#student-pct:focus{box-shadow:var(--neu-inset),0 0 0 2px rgba(201,164,82,.4);}
+#student-pct:focus{box-shadow:var(--neu-inset),0 0 0 2px rgba(42,125,225,.4);}
 #student-pct::placeholder{color:var(--text-l);}
 #student-pct-clear{position:absolute;right:8px;cursor:pointer;font-size:13px;color:var(--text-l);line-height:1;background:none;border:none;padding:0;}
 #student-pct-clear:hover{color:var(--primary);}
 #student-jj-warn{
-  font-size:10px;color:#b07030;font-weight:700;
-  background:rgba(176,112,48,.12);border-radius:8px;padding:3px 8px;
-  border:1px solid rgba(176,112,48,.3);display:none;}
+  font-size:10px;color:#2a5a8a;font-weight:700;
+  background:rgba(42,93,138,.1);border-radius:8px;padding:3px 8px;
+  border:1px solid rgba(42,93,138,.28);display:none;}
 #btn-watchlist-panel{
   display:inline-flex;align-items:center;gap:5px;
   padding:6px 14px;border-radius:12px;cursor:pointer;font-size:12px;font-weight:700;
@@ -242,7 +243,7 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
 #wl-list::-webkit-scrollbar{width:5px;}
 #wl-list::-webkit-scrollbar-thumb{background:var(--shd-d);border-radius:3px;}
 .wl-item{
-  background:#ebe6dc;border-radius:12px;margin-bottom:8px;
+  background:#dce8f5;border-radius:12px;margin-bottom:8px;
   padding:10px 12px;border:var(--gold-border);
   box-shadow:3px 3px 6px var(--shd-d),-3px -3px 6px var(--shd-l);}
 .wl-item-top{display:flex;align-items:flex-start;gap:6px;margin-bottom:6px;}
@@ -269,9 +270,9 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
 .wl-tag.확인필요.on{background:#a03030;color:#fff;}
 .wl-memo{
   width:100%;font-size:11px;font-family:inherit;padding:5px 8px;
-  border-radius:8px;border:none;background:#e0dbd2;color:var(--text);
+  border-radius:8px;border:none;background:#cdd8eb;color:var(--text);
   resize:none;box-shadow:var(--neu-inset);outline:none;line-height:1.5;}
-.wl-memo:focus{box-shadow:var(--neu-inset),0 0 0 2px rgba(30,58,95,.15);}
+.wl-memo:focus{box-shadow:var(--neu-inset),0 0 0 2px rgba(42,125,225,.2);}
 .wl-memo::placeholder{color:var(--text-l);}
 .btn-wl-remove{
   font-size:10px;font-weight:700;color:#a05050;cursor:pointer;
@@ -319,7 +320,7 @@ body{font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif
 #btn-compare-close:hover{color:var(--primary);}
 
 /* 상담 카드 영역 */
-#print-card{padding:16px 20px 10px;border-bottom:var(--gold-border);background:#f5f1e8;}
+#print-card{padding:16px 20px 10px;border-bottom:var(--gold-border);background:#e8eef8;}
 #print-card h3{font-size:13px;font-weight:800;color:var(--primary);margin:0 0 10px;}
 .print-card-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:6px;}
 .print-card-field{display:flex;flex-direction:column;gap:3px;}
@@ -2797,6 +2798,49 @@ function getUnivInfo(nm) {
 // 5. UNIV_INFO: 대학 부가정보 확장용 빈 템플릿 + getUnivInfo() 헬퍼
 // 6. 코드 구역 주석 7개 완비
 // ══════════════════════════════════════════════════════════
+
+/* ================================================================
+   [KN-BRIDGE] index.html → chart2025.html 학생 성적 수신
+   index.html에서 postMessage({ type:'kyeongil:set-student', data: student })로 전달한
+   학생 기준 백분위를 chart2025.html의 studentPct 기준선에 반영한다.
+   ================================================================ */
+(function setupKyeongilStudentBridge(){
+  if (window.__KN_CHART_STUDENT_BRIDGE__) return;
+  window.__KN_CHART_STUDENT_BRIDGE__ = true;
+
+  window.addEventListener('message', function(e) {
+    if (!e || !e.data || e.data.type !== 'kyeongil:set-student') return;
+
+    var s = e.data.data || {};
+    var pct = null;
+
+    if (s.percentile != null && s.percentile !== '') {
+      pct = parseFloat(s.percentile);
+    } else if (s.grade9 != null && s.grade9 !== '' && typeof g2p === 'function') {
+      var g9 = parseFloat(s.grade9);
+      if (!isNaN(g9)) pct = g2p(g9);
+    }
+
+    if (pct == null || isNaN(pct) || pct < 0 || pct > 100) {
+      console.warn('[KN-CHART-BRIDGE] 유효하지 않은 학생 백분위:', s);
+      return;
+    }
+
+    studentPct = Math.round(pct * 10) / 10;
+
+    var input = document.getElementById('student-pct');
+    if (input) input.value = String(studentPct);
+
+    if (typeof render === 'function') render();
+    if (typeof syncListView === 'function') syncListView();
+
+    console.log('[KN-CHART-BRIDGE] 학생 기준선 반영:', {
+      name: s.name || '',
+      grade9: s.grade9,
+      percentile: studentPct
+    });
+  });
+})();
 </script>
 </body>
 </html>
